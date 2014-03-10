@@ -1,0 +1,123 @@
+object uiWND_in0k_lazExt_AFC_CFG: TuiWND_in0k_lazExt_AFC_CFG
+  Left = 683
+  Height = 302
+  Top = 133
+  Width = 500
+  Caption = 'uiWND_in0k_lazExt_AFC_CFG'
+  ChildSizing.LeftRightSpacing = 4
+  ChildSizing.TopBottomSpacing = 4
+  ChildSizing.HorizontalSpacing = 4
+  ChildSizing.VerticalSpacing = 4
+  ClientHeight = 302
+  ClientWidth = 500
+  OnClose = FormClose
+  OnCreate = FormCreate
+  LCLVersion = '1.2.0.3'
+  object Button1: TButton
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 428
+    Height = 25
+    Top = 273
+    Width = 68
+    Anchors = [akRight, akBottom]
+    AutoSize = True
+    Caption = 'Button1'
+    OnClick = Button1Click
+    TabOrder = 0
+  end
+  object CheckBox1: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 4
+    Height = 19
+    Top = 4
+    Width = 492
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'CheckBox1'
+    OnChange = CheckBox1Change
+    TabOrder = 1
+  end
+  object Button2: TButton
+    AnchorSideRight.Control = Button1
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 356
+    Height = 25
+    Top = 273
+    Width = 68
+    Anchors = [akRight, akBottom]
+    AutoSize = True
+    Caption = 'Button2'
+    OnClick = Button2Click
+    TabOrder = 2
+  end
+  object GroupBox1: TGroupBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = CheckBox1
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Button1
+    Left = 4
+    Height = 242
+    Top = 27
+    Width = 492
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    Caption = 'GroupBox1'
+    ClientHeight = 224
+    ClientWidth = 488
+    TabOrder = 3
+    object RadioButton1: TRadioButton
+      AnchorSideLeft.Control = GroupBox1
+      AnchorSideTop.Control = GroupBox1
+      AnchorSideRight.Control = GroupBox1
+      AnchorSideRight.Side = asrBottom
+      Left = 0
+      Height = 19
+      Top = 0
+      Width = 488
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'RadioButton1'
+      OnChange = RadioButton1Change
+      TabOrder = 0
+    end
+    object RadioButton2: TRadioButton
+      AnchorSideLeft.Control = GroupBox1
+      AnchorSideTop.Control = RadioButton1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = GroupBox1
+      AnchorSideRight.Side = asrBottom
+      Left = 0
+      Height = 19
+      Top = 19
+      Width = 488
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'RadioButton2'
+      OnChange = RadioButton2Change
+      TabOrder = 1
+    end
+    object Memo1: TMemo
+      AnchorSideLeft.Control = GroupBox1
+      AnchorSideTop.Control = RadioButton2
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = GroupBox1
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = GroupBox1
+      AnchorSideBottom.Side = asrBottom
+      Left = 0
+      Height = 186
+      Top = 38
+      Width = 488
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      Lines.Strings = (
+        'Memo2'
+      )
+      TabOrder = 2
+    end
+  end
+end
