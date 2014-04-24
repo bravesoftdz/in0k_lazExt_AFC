@@ -6,6 +6,9 @@ interface
 uses Classes, sysutils, LCLProc,
  BaseIDEIntf, LazIDEIntf, SrcEditorIntf,
  LazConfigStorage,
+
+ CodeCache,
+
  SynEdit, in0k_lazExt_AFC_synEdit;
 
 const
@@ -19,7 +22,7 @@ type
    _workList:tStrings;                 //< реально работающий список "Имен"
   protected //< ВСЯ СУТЬ этого "дополнения"
     procedure _workList_Make;
-    function  _perform_AFC_getActiveEditor:tIn0k_lazExt_AFC_synEdit;
+    function  _perform_AFC_getActiveEditor(out CodeBuffer:TCodeBuffer):tIn0k_lazExt_AFC_synEdit;
     procedure _perform_AFC;
   protected //< СОБЫТИЯ
     procedure _ideEvent_srcEditorActivate(Sender: TObject);
@@ -31,6 +34,7 @@ type
    _nameList:tStrings; //< список "Имен"
    _lazExtON:boolean;  //< мы вообще работаем
    _fold_ALL:boolean;  //< сворачивать ВСЕ
+   _fold_HFC:boolean;  //< сворачивать Hint From Comment
     procedure _nameList_set(const names:tStrings);
     procedure _nameList_get(const names:tStrings);
   protected
@@ -64,6 +68,7 @@ begin
    _settings_Load;
     //---
    _ideEvents_register;
+   _fold_HFC:=true;
 end;
 
 destructor tIn0k_lazExt_AFC.DESTROY;
@@ -124,18 +129,20 @@ end;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function tIn0k_lazExt_AFC._perform_AFC_getActiveEditor:tIn0k_lazExt_AFC_synEdit;
+function tIn0k_lazExt_AFC._perform_AFC_getActiveEditor(out CodeBuffer:TCodeBuffer):tIn0k_lazExt_AFC_synEdit;
 begin // вытягиваем текущий активный synEdit
     pointer(result):=SourceEditorManagerIntf.ActiveEditor;
     if Assigned(result) then begin
+        CodeBuffer:=TCodeBuffer(TSourceEditorInterface(pointer(result)).CodeToolsBuffer);
         result:=tIn0k_lazExt_AFC_synEdit(TCustomSynEdit(TSourceEditorInterface(pointer(result)).EditorControl));
     end;
 end;
 
 procedure tIn0k_lazExt_AFC._perform_AFC;
 var tmpEdit:tIn0k_lazExt_AFC_synEdit;
+    CodeBuf:TCodeBuffer;
 begin
-    tmpEdit:=_perform_AFC_getActiveEditor;
+    tmpEdit:=_perform_AFC_getActiveEditor(CodeBuf);
     if Assigned(tmpEdit) then begin
         {*1> причины использования `_lastProcessed` /fold
             механизм с `_lastProcessed` приходится использовать из-за того, что
@@ -145,7 +152,7 @@ begin
         <*1}
         if _lastProc<>tmpEdit then begin
             if not _fold_ALL
-            then tmpEdit.foldComments_Name(_workList)
+            then tmpEdit.foldComments_Name(CodeBuf,_workList,_fold_HFC)
             else tmpEdit.foldComments_ALL;
            _lastProc:=tmpEdit;
         end;

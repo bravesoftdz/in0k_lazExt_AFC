@@ -8,7 +8,7 @@ interface
 
 uses
   in0k_lazExt_AFC_reg, in0k_lazExt_AFC, in0k_lazExt_AFC_wndCFG, 
-  in0k_lazExt_AFC_synEdit, LazarusPackageIntf;
+  in0k_lazExt_AFC_synEdit, in0k_lazExt_HFC_core, LazarusPackageIntf;
 
 implementation
 
