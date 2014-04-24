@@ -4,11 +4,15 @@
 
 interface
 
-uses Classes, SysUtils,   FindDeclarationTool,CodeToolManager, CodeCache,
+uses {$ifOpt D+} in0k_lazExt_AFC_wndDBG,  SysUtils, {$endIf}
+
+Classes,   FindDeclarationTool,CodeToolManager, CodeCache,
     SynEdit,
     SynEditHighlighterFoldBase,
     SynEditFoldedView,
-    SynHighlighterPas, in0k_lazExt_HFC_core,
+    SynHighlighterPas,
+    in0k_lazExt_HFC_core,
+
     SrcEditorIntf;
 
 type
@@ -19,36 +23,18 @@ type
   <inkDoc}
  tIn0k_lazExt_AFC_synEdit=class(TCustomSynEdit)
   protected
-    procedure __log_CLEAR__;
-    procedure __log__(const aText:string);
-  protected
     function _FldInf_isCommentForProcessing(const FldInf:TSynFoldNodeInfo):boolean; inline;
   protected
     function _mastFold_byNames(const names:tStrings; const txt_InUpCASE:string):boolean;
 
+  protected
+    procedure _FoldAtTextIndex(const FldInf:TSynFoldNodeInfo; const idLine,idFold:integer);
   public
     procedure foldComments_ALL;
     procedure foldComments_Name(const CodeBuffer:TCodeBuffer; const names:tStrings; const fold_HFC:boolean);
   end;
 
 implementation
-uses in0k_lazExt_AFC_wndCFG;
-
-procedure tIn0k_lazExt_AFC_synEdit.__log_CLEAR__;
-begin
-  if Assigned(uiWND_in0k_lazExt_AFC_CFG) then begin
-      uiWND_in0k_lazExt_AFC_CFG.Memo1.Clear;
-  end;
-end;
-
-procedure tIn0k_lazExt_AFC_synEdit.__log__(const aText:string);
-begin
-    if Assigned(uiWND_in0k_lazExt_AFC_CFG) then begin
-        uiWND_in0k_lazExt_AFC_CFG.Memo1.Lines.Add(aText);
-    end;
-end;
-
-//------------------------------------------------------------------------------
 
 {docHint> подходит ли FoldNode под параметры "для сворачивания"          <
     ~prm FldInf что именно проверяем
@@ -59,6 +45,20 @@ begin
     result:=(TPascalCodeFoldBlockType({%H-}PtrUInt(FldInf.FoldType)) in
               [cfbtAnsiComment, cfbtBorCommand, cfbtSlashComment]
             ) AND (sfaFoldFold in FldInf.FoldAction)
+end;
+
+
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+procedure tIn0k_lazExt_AFC_synEdit._FoldAtTextIndex(const FldInf:TSynFoldNodeInfo; const idLine,idFold:integer);
+begin
+    {$ifOpt D+}
+   _dbgLOG_('fold :-> idLine='+inttostr(idLine)+' idFold='+inttostr(idFold) +
+                    ' Column='+inttostr(FldInf.LogXStart+1)+' ColLEN='+inttostr(FldInf.LogXEnd-FldInf.LogXStart));
+    {$endIf}
+    {TODO: надо бы поразбираться с этим вызовом (с этим семейством вызовов)}
+    TextView.FoldAtTextIndex(idLine,idFold,1,False,1)
 end;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -74,16 +74,20 @@ end;
     свернуть ВСЕ сомментарии, которые встретим
 <docHint}
 procedure tIn0k_lazExt_AFC_synEdit.foldComments_ALL;
-var i, j:integer;
-  FldInf:TSynFoldNodeInfo;
+var idLine:integer;
+    idFold:integer;
+    FldInf:TSynFoldNodeInfo;
 begin
-    for i:=0 to Lines.Count-1 do begin
-        j:=TextView.FoldProvider.FoldOpenCount(i); //< кол-во груп начинающихся в строке
-        while j > 0 do begin
-            dec(j);
-            FldInf:=TextView.FoldProvider.FoldOpenInfo(i,j);
+    {$ifOpt D+}
+   _dbgLOG_('foldComments_ALL ->');
+    {$endIf}
+    for idLine:=0 to Lines.Count-1 do begin
+        idFold:=TextView.FoldProvider.FoldOpenCount(idLine); //< кол-во груп начинающихся в строке
+        while idFold > 0 do begin
+            dec(idFold);
+            FldInf:=TextView.FoldProvider.FoldOpenInfo(idLine,idFold);
             if _FldInf_isCommentForProcessing(FldInf) then begin
-                TextView.FoldAtTextIndex(i,j,1,False,1);
+               _FoldAtTextIndex(FldInf,idLine,idFold);
             end;
         end;
     end;
@@ -101,28 +105,25 @@ var idLine:integer;
     FldInf:TSynFoldNodeInfo;
     PrvInf:TSynEditFoldProviderNodeInfo;
 begin
-  if (names<>nil)and(names.Count>0) then //< эту проверку надо ИЗНИЧТОЖИТЬ
-    for idLine:=0 to Lines.Count-1 do begin
-
-        //TextView.FoldProvider.
-
-        idFold:=TextView.FoldProvider.FoldOpenCount(idLine); //< кол-во груп начинающихся в строке
-        while idFold > 0 do begin
-            dec(idFold);
-            FldInf:=TextView.FoldProvider.FoldOpenInfo(idLine,idFold);
-            PrvInf:=TextView.FoldProvider.InfoForFoldAtTextIndex(idLine,idFold);
-            if _FldInf_isCommentForProcessing(FldInf) then begin
-                if ((names.Count>0)and(_mastFold_byNames(names,UpperCase(Lines[idLine]))))
-                  or
-                   ((fold_HFC)and (in0k_lazExt_HFC__getOwnerAtomINDEX(CodeBuffer,@FldInf)>0 ))
-                then begin
-                    //PrvInf:=TextView.FoldProvider.InfoForFoldAtTextIndex(idLine,idFold);
-
-                    __log__('mastFOLD');
-
-                    TextView.FoldAtTextIndex(idLine,idFold,1,false,1);
-
-                    //TextView.FoldAtTextIndex(idLine,PrvInf.Column,PrvInf.ColumnLen,False,1);
+    {$ifOpt D+}
+   _dbgLOG_('foldComments_NMS ->');
+    {$endIf}
+    if ((names<>nil)and(names.Count>0)) //< эту проверку надо ИЗНИЧТОЖИТЬ
+        or(fold_HFC)
+    then begin
+        for idLine:=0 to Lines.Count-1 do begin
+            idFold:=TextView.FoldProvider.FoldOpenCount(idLine); //< кол-во груп начинающихся в строке
+            while idFold > 0 do begin
+                dec(idFold);
+                FldInf:=TextView.FoldProvider.FoldOpenInfo(idLine,idFold);
+                //PrvInf:=TextView.FoldProvider.InfoForFoldAtTextIndex(idLine,idFold);
+                if _FldInf_isCommentForProcessing(FldInf) then begin
+                    if ((names.Count>0)and(_mastFold_byNames(names,UpperCase(Lines[idLine]))))
+                      or
+                       ((fold_HFC)and (in0k_lazExt_HFC__getOwnerAtomINDEX(CodeBuffer,@FldInf)>0 ))
+                    then begin
+                        _FoldAtTextIndex(FldInf,idLine,idFold);
+                    end;
                 end;
             end;
         end;

@@ -1,0 +1,52 @@
+object uiWND_in0k_lazExt_AFC_DBG: TuiWND_in0k_lazExt_AFC_DBG
+  Left = 643
+  Height = 446
+  Top = 165
+  Width = 580
+  BorderStyle = bsSizeToolWin
+  Caption = 'uiWND_in0k_lazExt_AFC_DBG'
+  ChildSizing.LeftRightSpacing = 2
+  ChildSizing.TopBottomSpacing = 2
+  ChildSizing.HorizontalSpacing = 2
+  ChildSizing.VerticalSpacing = 2
+  ClientHeight = 446
+  ClientWidth = 580
+  LCLVersion = '1.2.0.3'
+  object Memo1: TMemo
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Button1
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 2
+    Height = 415
+    Top = 29
+    Width = 576
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    Font.Pitch = fpFixed
+    Font.Quality = fqDraft
+    Lines.Strings = (
+      'Memo1'
+    )
+    ParentFont = False
+    ScrollBars = ssAutoBoth
+    TabOrder = 0
+    WordWrap = False
+  end
+  object Button1: TButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 2
+    Height = 25
+    Top = 2
+    Width = 75
+    Caption = 'Button1'
+    OnClick = Button1Click
+    TabOrder = 1
+  end
+end

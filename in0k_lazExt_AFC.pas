@@ -3,13 +3,14 @@ unit in0k_lazExt_AFC;
 {$mode objfpc}{$H+}
 
 interface
-uses Classes, sysutils, LCLProc,
- BaseIDEIntf, LazIDEIntf, SrcEditorIntf,
- LazConfigStorage,
 
- CodeCache,
-
- SynEdit, in0k_lazExt_AFC_synEdit;
+uses {$ifOpt D+} in0k_lazExt_AFC_wndDBG, {$endIf}
+    Classes, sysutils, LCLProc,
+    LazConfigStorage,
+    BaseIDEIntf, LazIDEIntf, SrcEditorIntf,
+    CodeCache,
+    SynEdit,
+    in0k_lazExt_AFC_synEdit;
 
 const
  cIn0k_lazExt_AFC_Name='in0k_lazExt_AFC';
@@ -133,9 +134,17 @@ function tIn0k_lazExt_AFC._perform_AFC_getActiveEditor(out CodeBuffer:TCodeBuffe
 begin // вытягиваем текущий активный synEdit
     pointer(result):=SourceEditorManagerIntf.ActiveEditor;
     if Assigned(result) then begin
+        {$ifOpt D+}
+       _dbgLOG_('getActiveEditor found:'+TSourceEditorInterface(pointer(result)).FileName);
+        {$endIf}
         CodeBuffer:=TCodeBuffer(TSourceEditorInterface(pointer(result)).CodeToolsBuffer);
         result:=tIn0k_lazExt_AFC_synEdit(TCustomSynEdit(TSourceEditorInterface(pointer(result)).EditorControl));
-    end;
+    end
+    {$ifOpt D+}
+    else begin
+        _dbgLOG_('getActiveEditor found: NULL');
+    end
+    {$endIf}
 end;
 
 procedure tIn0k_lazExt_AFC._perform_AFC;
@@ -151,10 +160,16 @@ begin
             Почему так происходит - повод для дальнейших разобирательств.
         <*1}
         if _lastProc<>tmpEdit then begin
+            {$ifOpt D+}
+           _dbgLOG_('==== START for file: '+CodeBuf.Filename);
+            {$endIf}
             if not _fold_ALL
             then tmpEdit.foldComments_Name(CodeBuf,_workList,_fold_HFC)
             else tmpEdit.foldComments_ALL;
            _lastProc:=tmpEdit;
+            {$ifOpt D+}
+           _dbgLOG_('==== END =========:');
+            {$endIf}
         end;
     end;
 end;
