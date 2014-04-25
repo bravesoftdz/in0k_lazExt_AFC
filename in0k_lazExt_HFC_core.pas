@@ -63,7 +63,6 @@ begin
         CodeXYPosition.X   :=Column;//+ColumnLen+1;
         CodeXYPosition.Y   :=LineIndex+1;
 
-
         try    Tool.BuildTreeAndGetCleanPos(CodeXYPosition,result);
         except result:=chintDoc_CORE_err_SourceBulidTREE end;
 

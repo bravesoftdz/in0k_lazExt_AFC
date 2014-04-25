@@ -4,10 +4,10 @@ unit in0k_lazExt_AFC_reg;
 
 interface
 
-uses Forms, MenuIntf,
-   in0k_lazExt_AFC,
-   in0k_lazExt_AFC_wndCFG,
-   in0k_lazExt_AFC_wndDBG;
+uses {$ifOPT D+} in0k_lazExt_AFC_wndDBG, {$endIf}
+    Forms, MenuIntf,
+    in0k_lazExt_AFC_wndCFG,
+    in0k_lazExt_AFC;
 
 procedure Register;
 
@@ -31,17 +31,20 @@ begin
 end;
 {$endIf}
 
+const cUiWND_DOTs=' ..';
+
 procedure Register;
 begin
     In0k_lazExt_AFC__CREATE;
     RegisterIDEMenuCommand(itmCustomTools,
                            cIn0k_lazExt_AFC_Name,
-                           cUiWND_in0k_lazExt_AFC_CFG_Caption+' ...',
+                           cUiWND_in0k_lazExt_AFC_CFG_Caption+cUiWND_DOTs,
                            nil,@UiWND_in0k_lazExt_AFC_CFG_SHOW);
     {$ifOPT D+}
+    uiWND_in0k_lazExt_AFC_DBG:=nil;
     RegisterIDEMenuCommand(itmCustomTools,
                            cIn0k_lazExt_AFC_Name,
-                           cUiWND_in0k_lazExt_AFC_DBG_Caption+' ...',
+                           cUiWND_in0k_lazExt_AFC_DBG_Caption+cUiWND_DOTs,
                            nil,@UiWND_in0k_lazExt_AFC_DBG_SHOW);
     {$endIf}
 end;

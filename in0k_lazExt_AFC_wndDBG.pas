@@ -28,13 +28,18 @@ type
 var uiWND_in0k_lazExt_AFC_DBG:TuiWND_in0k_lazExt_AFC_DBG;
 
 
-procedure _dbgLOG_(const dbgText:string);
+
+{
+
+    ~prm textStartEnD проверять ли галочку (это НЕДОРАБОТКА архитерктуры)
+}
+procedure _dbgLOG_(const dbgText:string; const textStartEnD:boolean=false);
 
 implementation
 
 {$R *.lfm}
 
-procedure _dbgLOG_(const dbgText:string);
+procedure _dbgLOG_(const dbgText:string; const textStartEnD:boolean=false);
 begin
     if Assigned(uiWND_in0k_lazExt_AFC_DBG)
         and

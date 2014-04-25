@@ -63,13 +63,6 @@ end;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-{TODO: Разобраться с методом обхода "комментариев".
-    Скорее всего есть более элегантный способ обхода ВСЕХ комментариев готовых
-    к сворачиванию. Хоть подход и взят из "официального"
-    (`TIDESynGutterCodeFolding.PopClickedFoldComment`)
-    мне он НЕ кажется оптимальным.
-:TODO}
-
 {docHint> Свернуть ВСЕ и ВСЁ                                             <
     свернуть ВСЕ сомментарии, которые встретим
 <docHint}
@@ -103,24 +96,37 @@ procedure tIn0k_lazExt_AFC_synEdit.foldComments_Name(const CodeBuffer:TCodeBuffe
 var idLine:integer;
     idFold:integer;
     FldInf:TSynFoldNodeInfo;
-    PrvInf:TSynEditFoldProviderNodeInfo;
+ _use_HTC :boolean; //< использовать ли проверку (если файл НЕможем построить дерево то эта проверка НЕ работает)
+ _mastFold:boolean;
 begin
     {$ifOpt D+}
    _dbgLOG_('foldComments_NMS ->');
     {$endIf}
-    if ((names<>nil)and(names.Count>0)) //< эту проверку надо ИЗНИЧТОЖИТЬ
-        or(fold_HFC)
+    if (names.Count>0)or(fold_HFC)
     then begin
+       _use_HTC:=TRUE;
+
+        {TODO: Разобраться с методом обхода "комментариев".
+           Скорее всего есть более элегантный способ обхода ВСЕХ комментариев готовых
+           к сворачиванию. Хоть подход и взят из "официального"
+           (`TIDESynGutterCodeFolding.PopClickedFoldComment`)
+           мне он НЕ кажется оптимальным.
+       :TODO}
         for idLine:=0 to Lines.Count-1 do begin
             idFold:=TextView.FoldProvider.FoldOpenCount(idLine); //< кол-во груп начинающихся в строке
             while idFold > 0 do begin
                 dec(idFold);
                 FldInf:=TextView.FoldProvider.FoldOpenInfo(idLine,idFold);
-                //PrvInf:=TextView.FoldProvider.InfoForFoldAtTextIndex(idLine,idFold);
                 if _FldInf_isCommentForProcessing(FldInf) then begin
-                    if ((names.Count>0)and(_mastFold_byNames(names,UpperCase(Lines[idLine]))))
+                   _mastFold:=((names.Count>0)and(_mastFold_byNames(names,UpperCase(Lines[idLine]))));
+                    if not
+
+
+
+
+                    if
                       or
-                       ((fold_HFC)and (in0k_lazExt_HFC__getOwnerAtomINDEX(CodeBuffer,@FldInf)>0 ))
+                       ((fold_HFC)and (in0k_lazExt_HFC__getOwnerAtomINDEX(CodeBuffer,@FldInf)>0))
                     then begin
                         _FoldAtTextIndex(FldInf,idLine,idFold);
                     end;
@@ -142,6 +148,9 @@ begin
     for i:=0 to names.Count-1 do begin
         if pos(names.Strings[i],txt_InUpCASE)>0
         then begin
+            {$ifOpt D+}
+           _dbgLOG_('find NAME: "'+names.Strings[i]+'"');
+            {$endIf}
             result:=true;
             break
         end;

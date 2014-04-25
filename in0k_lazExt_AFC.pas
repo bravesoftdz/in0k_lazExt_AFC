@@ -20,7 +20,8 @@ type
  tIn0k_lazExt_AFC=class
   strict private
    _lastProc:tIn0k_lazExt_AFC_synEdit; //< последний ОБРАБОТАННЫЙ
-   _workList:tStrings;                 //< реально работающий список "Имен"
+   _workList:tStrings;                 //< реально работающий список "Имен" (upCASE)
+                                       //< !!! он ВСЕГДА создан, но может быть пуст
   protected //< ВСЯ СУТЬ этого "дополнения"
     procedure _workList_Make;
     function  _perform_AFC_getActiveEditor(out CodeBuffer:TCodeBuffer):tIn0k_lazExt_AFC_synEdit;
@@ -132,17 +133,25 @@ end;
 
 function tIn0k_lazExt_AFC._perform_AFC_getActiveEditor(out CodeBuffer:TCodeBuffer):tIn0k_lazExt_AFC_synEdit;
 begin // вытягиваем текущий активный synEdit
+    CodeBuffer     :=nil;
     pointer(result):=SourceEditorManagerIntf.ActiveEditor;
     if Assigned(result) then begin
         {$ifOpt D+}
        _dbgLOG_('getActiveEditor found:'+TSourceEditorInterface(pointer(result)).FileName);
         {$endIf}
         CodeBuffer:=TCodeBuffer(TSourceEditorInterface(pointer(result)).CodeToolsBuffer);
-        result:=tIn0k_lazExt_AFC_synEdit(TCustomSynEdit(TSourceEditorInterface(pointer(result)).EditorControl));
+        if assigned(CodeBuffer)
+        then result:=tIn0k_lazExt_AFC_synEdit(TCustomSynEdit(TSourceEditorInterface(pointer(result)).EditorControl))
+        else begin
+            result:=nil;
+            {$ifOpt D+}
+           _dbgLOG_('CodeBuffer is NULL');
+            {$endIf}
+        end
     end
     {$ifOpt D+}
     else begin
-        _dbgLOG_('getActiveEditor found: NULL');
+        _dbgLOG_('SourceEditorManagerIntf.ActiveEditor is NULL');
     end
     {$endIf}
 end;
@@ -152,7 +161,7 @@ var tmpEdit:tIn0k_lazExt_AFC_synEdit;
     CodeBuf:TCodeBuffer;
 begin
     tmpEdit:=_perform_AFC_getActiveEditor(CodeBuf);
-    if Assigned(tmpEdit) then begin
+    if Assigned(tmpEdit) and Assigned(CodeBuf) then begin
         {*1> причины использования `_lastProcessed` /fold
             механизм с `_lastProcessed` приходится использовать из-за того, что
             при переключение "Вкладок Редактора Исходного Кода" вызов данного
@@ -161,14 +170,14 @@ begin
         <*1}
         if _lastProc<>tmpEdit then begin
             {$ifOpt D+}
-           _dbgLOG_('==== START for file: '+CodeBuf.Filename);
+           _dbgLOG_(' ==== START for file :'+CodeBuf.Filename);
             {$endIf}
             if not _fold_ALL
             then tmpEdit.foldComments_Name(CodeBuf,_workList,_fold_HFC)
             else tmpEdit.foldComments_ALL;
            _lastProc:=tmpEdit;
             {$ifOpt D+}
-           _dbgLOG_('==== END =========:');
+           _dbgLOG_(' ====  END  =========:');
             {$endIf}
         end;
     end;
