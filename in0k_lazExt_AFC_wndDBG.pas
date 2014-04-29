@@ -22,7 +22,7 @@ type
   end;
 
 procedure _dbgLOG_SHOW;
-procedure _dbgLOG_(const dbgText:string; const textStartEnD:boolean=false);
+procedure _dbgLOG_(const dbgText:string; const {%H-}textStartEnD:boolean=false);
 
 implementation
 
@@ -65,6 +65,7 @@ end;
 
 {
     ~prm textStartEnD проверять ли галочку (это НЕДОРАБОТКА архитерктуры)
+     и все равно пока не работает
 }
 procedure _dbgLOG_(const dbgText:string; const textStartEnD:boolean=false);
 begin

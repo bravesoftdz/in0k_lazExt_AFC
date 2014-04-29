@@ -4,9 +4,10 @@
 
 interface
 
-uses {$ifOpt D+} in0k_lazExt_AFC_wndDBG,  SysUtils, {$endIf}
+uses {$ifOpt D+} in0k_lazExt_AFC_wndDBG,   {$endIf}
 
-Classes,   FindDeclarationTool,CodeToolManager, CodeCache,
+Classes, sysutils,
+FindDeclarationTool,CodeToolManager, CodeCache,
     SynEdit,
     SynEditHighlighterFoldBase,
     SynEditFoldedView,

@@ -16,6 +16,16 @@
           <CPPInline Value="False"/>
         </SyntaxOptions>
       </Parsing>
+      <CodeGeneration>
+        <Optimizations>
+          <OptimizationLevel Value="2"/>
+        </Optimizations>
+      </CodeGeneration>
+      <Linking>
+        <Debugging>
+          <GenerateDebugInfo Value="False"/>
+        </Debugging>
+      </Linking>
       <Other>
         <CompilerMessages>
           <MsgFileName Value=""/>

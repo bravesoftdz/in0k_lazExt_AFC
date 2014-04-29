@@ -36,7 +36,7 @@ const chintDoc_CORE_err_SourceBulidTREE=-100;
       chintDoc_CORE_err_ToolObtain     =-101;
 //---
 
-function hintDoc_CORE_001_findPrior(const Code:TCodeBuffer; const LineIndex,Column,ColumnLen:integer):integer;
+function hintDoc_CORE_001_findPrior(const Code:TCodeBuffer; const LineIndex,Column:integer):integer;
 var Tool:TCodeTool;
     CodeXYPosition:TCodeXYPosition;
     ALineStart, ALineEnd, AFirstAtomStart, ALastAtomEnd: integer;
@@ -69,7 +69,7 @@ begin
     end;
 end;
 
-function hintDoc_CORE_001_findAfter(const Code:TCodeBuffer; const LineIndex,Column,ColumnLen:integer):integer;
+function hintDoc_CORE_001_findAfter(const Code:TCodeBuffer; const LineIndex,Column:integer):integer;
 var Tool:TCodeTool;
     CodeXYPosition:TCodeXYPosition;
     ALineStart, ALineEnd, AFirstAtomStart, ALastAtomEnd: integer;
@@ -105,8 +105,8 @@ end;
 function hintDoc_CORE_01(const Code:TCodeBuffer; const LineIndex,Column,ColumnLen:integer):integer;
 begin
     if hintDoc_CORE_CommentBelongsToPrior(code.GetLine(LineIndex), Column,ColumnLen)
-    then result:=hintDoc_CORE_001_findPrior(Code,LineIndex,Column,ColumnLen)
-    else result:=hintDoc_CORE_001_findAfter(Code,LineIndex,Column,ColumnLen);
+    then result:=hintDoc_CORE_001_findPrior(Code,LineIndex,Column)
+    else result:=hintDoc_CORE_001_findAfter(Code,LineIndex,Column);
 end;
 
 function in0k_lazExt_HFC__getOwnerAtomINDEX(const Code:TCodeBuffer; const SNFNI:PSynFoldNodeInfo):integer;
