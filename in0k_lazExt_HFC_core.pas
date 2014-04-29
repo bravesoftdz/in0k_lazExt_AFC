@@ -10,19 +10,7 @@ uses {$ifOpt D+}LCLProc,{$endif}
 
 function in0k_lazExt_HFC__getOwnerAtomINDEX(const Code:TCodeBuffer; const SNFNI:PSynFoldNodeInfo):integer;
 
-//function hintDoc_CORE_CommentBelongsToPrior(const firstLineCommentTEXT:string; const Column,ColumnLen:integer):boolean;
-
-
-
-//function hintDoc_CORE_001_findAfter(const Code:TCodeBuffer; const Tool:TCodeTool; const LineIndex,LineCount,Column,ColumnLen:integer):integer;
-
-//function hintDoc_CORE_001_findPrior(const Code:TCodeBuffer; const Tool:TCodeTool; const LineIndex,LineCount,Column,ColumnLen:integer):integer;
-
 implementation
-
-
-
-
 
 const chintDoc_CORE_CommentBelongsToPrior_SMB   ='<';
 const chintDoc_CORE_CommentBelongsToPrior_SMBlen=length(chintDoc_CORE_CommentBelongsToPrior_SMB);
@@ -44,10 +32,10 @@ begin
 end;
 
 //---
-
-
 const chintDoc_CORE_err_SourceBulidTREE=-100;
       chintDoc_CORE_err_ToolObtain     =-101;
+//---
+
 function hintDoc_CORE_001_findPrior(const Code:TCodeBuffer; const LineIndex,Column,ColumnLen:integer):integer;
 var Tool:TCodeTool;
     CodeXYPosition:TCodeXYPosition;
@@ -114,8 +102,6 @@ begin
     end;
 end;
 
-
-
 function hintDoc_CORE_01(const Code:TCodeBuffer; const LineIndex,Column,ColumnLen:integer):integer;
 begin
     if hintDoc_CORE_CommentBelongsToPrior(code.GetLine(LineIndex), Column,ColumnLen)
@@ -123,19 +109,10 @@ begin
     else result:=hintDoc_CORE_001_findAfter(Code,LineIndex,Column,ColumnLen);
 end;
 
-
-
-
 function in0k_lazExt_HFC__getOwnerAtomINDEX(const Code:TCodeBuffer; const SNFNI:PSynFoldNodeInfo):integer;
 begin
     result:=hintDoc_CORE_01(Code,SNFNI^.LineIndex,SNFNI^.LogXEnd+1,SNFNI^.LogXEnd - SNFNI^.LogXStart);
 end;
-
-
-
-
-
-
 
 end.
 

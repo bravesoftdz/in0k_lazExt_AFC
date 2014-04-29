@@ -39,7 +39,7 @@ implementation
     ~prm FldInf что именно сворачиваем
     ~prm idFold чиста для дебага
 <docHint}
-procedure tIn0k_lazExt_AFC_synEdit._FOLD__FldInf(const FldInf:TSynFoldNodeInfo; const idFold:integer);
+procedure tIn0k_lazExt_AFC_synEdit._FOLD_FldInf(const FldInf:TSynFoldNodeInfo; const idFold:integer);
 begin
     {$ifOpt D+}
    _dbgLOG_('fold :-> idLine='+inttostr(FldInf.LineIndex+1)+' idFold='+inttostr(idFold) +
@@ -88,7 +88,7 @@ begin
             dec(idFold);
             FldInf:=TextView.FoldProvider.FoldOpenInfo(idLine,idFold);
             if _mastFold_mstPRC(FldInf)
-            then _FOLD__FldInf(FldInf,idLine,idFold);
+            then _FOLD_FldInf(FldInf,idFold);
         end;
     end;
 end;
@@ -119,11 +119,11 @@ begin
                 FldInf:=TextView.FoldProvider.FoldOpenInfo(idLine,idFold);
                 if _mastFold_mstPRC(FldInf) then begin
                     // нужно решать, сворачивать или нет
-                    if _mastFold_by_LST(@FldInf,names)
+                    if _mastFold_by_LST(FldInf,names)
                        or
-                       _mastFold_by_HFC(@FldInf,CodeBuffer,_use_HTC)
+                       _mastFold_by_HFC(FldInf,CodeBuffer,_use_HTC)
                     then begin
-                       _FOLD__FldInf(FldInf,idLine,idFold);
+                       _FOLD_FldInf(FldInf,idFold);
                     end;
                 end;
             end;
@@ -151,15 +151,15 @@ end;
     ~prm FldInf что именно проверяем
     ~prm names список "слов"
 <docHint}
-function tIn0k_lazExt_AFC_synEdit._mastFold_by_LST(const FldInf:pSynFoldNodeInfo; const names:tStrings):boolean;
+function tIn0k_lazExt_AFC_synEdit._mastFold_by_LST(const FldInf:TSynFoldNodeInfo; const names:tStrings):boolean;
 var s:string;
     i:integer;
 begin
     result:=false;
     if Assigned(names) and (names.Count>0) then begin
         // готовим строку к поиску
-        s:=Lines[FldInf^.LineIndex];
-        delete(s,1,FldInf^.LogXStart);
+        s:=Lines[FldInf.LineIndex];
+        delete(s,1,FldInf.LogXStart);
         s:=trim(s);
         // проводим поиск по списку
         if s<>'' then begin
@@ -182,7 +182,7 @@ end;
     ~prm FldInf что именно проверяем
     ~prm names список "слов"
 <docHint}
-function tIn0k_lazExt_AFC_synEdit._mastFold_by_HFC(const FldInf:pSynFoldNodeInfo; const CodeBuffer:TCodeBuffer; var useHFC:boolean):boolean;
+function tIn0k_lazExt_AFC_synEdit._mastFold_by_HFC(const FldInf:TSynFoldNodeInfo; const CodeBuffer:TCodeBuffer; var useHFC:boolean):boolean;
 var i:integer;
 begin
     {*/fold  самом деле алгоритм иногда ошибается
@@ -197,7 +197,7 @@ begin
     *}
     result:=useHFC;
     if result then begin
-        i:=in0k_lazExt_HFC__getOwnerAtomINDEX(CodeBuffer,FldInf);
+        i:=in0k_lazExt_HFC__getOwnerAtomINDEX(CodeBuffer,@FldInf);
         if i>0 then begin
             // по сути: нашли к чему этот комментарий
             result:=true;

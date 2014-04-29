@@ -5,7 +5,7 @@ unit in0k_lazExt_AFC_wndCFG;
 interface
 
 uses Classes, Forms, StdCtrls,
-  in0k_lazExt_AFC;
+  in0k_lazExt_AFC, in0k_lazExt_AFC_wndDBG;
 
 const
  cUiWND_in0k_lazExt_AFC_CFG_Caption='Configure "Auto Fold Comments" tool';
@@ -21,6 +21,7 @@ type
  TuiWND_in0k_lazExt_AFC_CFG = class(TForm)
     Button1: TButton;
     Button2: TButton;
+    Button3: TButton;
     CheckBox1: TCheckBox;
     CheckBox2: TCheckBox;
     CheckBox3: TCheckBox;
@@ -30,6 +31,7 @@ type
     RadioButton2: TRadioButton;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
     procedure CheckBox1Change(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -63,6 +65,7 @@ const
 
   cUiWND_in0k_lazExt_AFC_CFG_texts_B01='Save';
   cUiWND_in0k_lazExt_AFC_CFG_texts_B02='set Default and Save';
+  cUiWND_in0k_lazExt_AFC_CFG_texts_B03='deBug window';
 
 constructor TuiWND_in0k_lazExt_AFC_CFG.Create(TheOwner:TComponent);
 begin
@@ -87,6 +90,7 @@ begin
     //---
     Button1.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_B01;
     Button2.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_B02;
+    Button3.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_B03;
 end;
 
 //------------------------------------------------------------------------------
@@ -168,6 +172,15 @@ begin
         In0k_lazExt_AFC.In0k_lazExt_AFC.SaveDefSettings;
        _Settings2Form;
     end;
+end;
+
+procedure TuiWND_in0k_lazExt_AFC_CFG.Button3Click(Sender: TObject);
+begin
+    {$ifOpt D+}
+       _dbgLOG_SHOW;
+    {$else}
+       //sdf
+    {$endIf}
 end;
 
 initialization

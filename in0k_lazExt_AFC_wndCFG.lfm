@@ -42,20 +42,6 @@ object uiWND_in0k_lazExt_AFC_CFG: TuiWND_in0k_lazExt_AFC_CFG
     OnChange = CheckBox1Change
     TabOrder = 1
   end
-  object Button2: TButton
-    AnchorSideRight.Control = Button1
-    AnchorSideBottom.Control = Owner
-    AnchorSideBottom.Side = asrBottom
-    Left = 356
-    Height = 25
-    Top = 273
-    Width = 68
-    Anchors = [akRight, akBottom]
-    AutoSize = True
-    Caption = 'Button2'
-    OnClick = Button2Click
-    TabOrder = 2
-  end
   object GroupBox1: TGroupBox
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = CheckBox1
@@ -71,7 +57,7 @@ object uiWND_in0k_lazExt_AFC_CFG: TuiWND_in0k_lazExt_AFC_CFG
     Caption = 'GroupBox1'
     ClientHeight = 224
     ClientWidth = 488
-    TabOrder = 3
+    TabOrder = 2
     object RadioButton1: TRadioButton
       AnchorSideLeft.Control = GroupBox1
       AnchorSideTop.Control = GroupBox1
@@ -149,5 +135,34 @@ object uiWND_in0k_lazExt_AFC_CFG: TuiWND_in0k_lazExt_AFC_CFG
       Caption = 'CheckBox3'
       TabOrder = 4
     end
+  end
+  object Button2: TButton
+    AnchorSideRight.Control = Button1
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 356
+    Height = 25
+    Top = 273
+    Width = 68
+    Anchors = [akRight, akBottom]
+    AutoSize = True
+    Caption = 'Button2'
+    OnClick = Button2Click
+    TabOrder = 3
+  end
+  object Button3: TButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Button1
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 4
+    Height = 25
+    Top = 273
+    Width = 68
+    Anchors = [akLeft, akBottom]
+    AutoSize = True
+    Caption = 'Button3'
+    OnClick = Button3Click
+    TabOrder = 4
   end
 end
