@@ -12,7 +12,7 @@ object uiWND_in0k_lazExt_AFC_CFG: TuiWND_in0k_lazExt_AFC_CFG
   ClientWidth = 500
   OnClose = FormClose
   OnCreate = FormCreate
-  LCLVersion = '1.2.0.3'
+  LCLVersion = '1.2.2.0'
   object Button1: TButton
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
@@ -102,22 +102,52 @@ object uiWND_in0k_lazExt_AFC_CFG: TuiWND_in0k_lazExt_AFC_CFG
       TabOrder = 1
     end
     object Memo1: TMemo
-      AnchorSideLeft.Control = GroupBox1
-      AnchorSideTop.Control = RadioButton2
+      AnchorSideLeft.Control = CheckBox2
+      AnchorSideTop.Control = CheckBox2
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = GroupBox1
       AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = GroupBox1
-      AnchorSideBottom.Side = asrBottom
-      Left = 0
-      Height = 186
-      Top = 38
-      Width = 488
+      AnchorSideBottom.Control = CheckBox3
+      Left = 8
+      Height = 144
+      Top = 57
+      Width = 480
       Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Bottom = 4
       Lines.Strings = (
         'Memo2'
       )
       TabOrder = 2
+    end
+    object CheckBox2: TCheckBox
+      AnchorSideLeft.Control = RadioButton2
+      AnchorSideTop.Control = RadioButton2
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Memo1
+      AnchorSideRight.Side = asrBottom
+      Left = 8
+      Height = 19
+      Top = 38
+      Width = 78
+      BorderSpacing.Left = 8
+      Caption = 'CheckBox2'
+      TabOrder = 3
+    end
+    object CheckBox3: TCheckBox
+      AnchorSideLeft.Control = CheckBox2
+      AnchorSideTop.Control = Memo1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Memo1
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = GroupBox1
+      AnchorSideBottom.Side = asrBottom
+      Left = 8
+      Height = 19
+      Top = 205
+      Width = 480
+      Anchors = [akLeft, akRight, akBottom]
+      Caption = 'CheckBox3'
+      TabOrder = 4
     end
   end
 end

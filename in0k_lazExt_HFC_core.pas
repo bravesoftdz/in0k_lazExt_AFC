@@ -5,9 +5,8 @@ unit in0k_lazExt_HFC_core;
 interface
 
 uses {$ifOpt D+}LCLProc,{$endif}
-    Classes,  BasicCodeTools,  PascalParserTool,
-    CodeCache, CodeTree, CodeToolManager,
-    SynEditHighlighterFoldBase, SynEditFoldedView;
+    BasicCodeTools, CodeCache, CodeToolManager,
+    SynEditHighlighterFoldBase;
 
 function in0k_lazExt_HFC__getOwnerAtomINDEX(const Code:TCodeBuffer; const SNFNI:PSynFoldNodeInfo):integer;
 
@@ -55,6 +54,7 @@ var Tool:TCodeTool;
     ALineStart, ALineEnd, AFirstAtomStart, ALastAtomEnd: integer;
     CleanCursorTMP:integer;
 begin
+    result:=-1;
     {$ifOpt D+}DbgOut('hintDoc_CORE_001_Prior');{$endif}
     CodeToolBoss.Explore(Code,Tool,false,false);
     if not Assigned(Tool) then result:=chintDoc_CORE_err_ToolObtain
@@ -87,6 +87,7 @@ var Tool:TCodeTool;
     ALineStart, ALineEnd, AFirstAtomStart, ALastAtomEnd: integer;
     CleanCursorTMP:integer;
 begin
+    result:=-1;
     {$ifOpt D+}DbgOut('hintDoc_CORE_001_After');{$endif}
     CodeToolBoss.Explore(Code,Tool,false,false);
     if not Assigned(Tool) then result:=chintDoc_CORE_err_ToolObtain
