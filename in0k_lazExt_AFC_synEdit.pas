@@ -18,6 +18,17 @@ FindDeclarationTool,CodeToolManager, CodeCache,
 
 type
 
+{ tIn0k_lazExt_AFC_synEditFoldProvider=class(TSynEditFoldProvider)
+  protected
+   function FoldTree:TSynTextFoldAVLTree;
+
+  end; }
+
+ tIn0k_lazExt_AFC_synEditFoldedView=class(TSynEditFoldedView)
+  public
+    property FoldTree;
+  end;
+
   {inkDoc> "представитель" synEdit`а
     Существование этого класса обусловленно необходимостью доступа к свойству
     `TCustomSynEdit.TextView`, которое "скрыто" в `TSynEdit`.
@@ -35,6 +46,7 @@ type
   end;
 
 implementation
+
 
 {docHint> слопнуть                                                       <
     ~prm FldInf что именно сворачиваем
@@ -79,19 +91,37 @@ procedure tIn0k_lazExt_AFC_synEdit.foldComments_ALL;
 var idLine:integer;
     idFold:integer;
     FldInf:TSynFoldNodeInfo;
+
+    fldND :TSynTextFoldAVLNode;
+
 begin
     {$ifOpt D+}
    _dbgLOG_('foldComments_ALL ->');
     {$endIf}
-    for idLine:=0 to Lines.Count-1 do begin
-        idFold:=TextView.FoldProvider.FoldOpenCount(idLine); //< кол-во груп начинающихся в строке
+    //for idLine:=0 to Lines.Count-1 do begin
+        //     TextView.f
+        //fldND:=tIn0k_lazExt_AFC_synEditFoldProvider(TextView.FoldProvider).FoldTree.FindFirstFold;
+
+        fldND:=tIn0k_lazExt_AFC_synEditFoldedView(TextView).FoldTree.FindFirstFold;
+
+        while fldND.IsInFold do begin
+
+            {$ifOpt D+}
+           _dbgLOG_('fldND ok');
+            {$endIf}
+            fldND:=fldND.Next;
+        end;
+
+
+
+        {idFold:=TextView.FoldProvider.FoldOpenCount(idLine); //< кол-во груп начинающихся в строке
         while idFold > 0 do begin
             dec(idFold);
             FldInf:=TextView.FoldProvider.FoldOpenInfo(idLine,idFold);
             if _mastFold_mstPRC(FldInf)
             then _FOLD_FldInf(FldInf,idFold);
-        end;
-    end;
+        end; }
+    //end;
 end;
 
 {docHint> Свернуть выборочно                                             <
