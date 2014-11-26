@@ -12,7 +12,7 @@ object uiWND_in0k_lazExt_AFC_CFG: TuiWND_in0k_lazExt_AFC_CFG
   ClientWidth = 500
   OnClose = FormClose
   OnCreate = FormCreate
-  LCLVersion = '1.2.2.0'
+  LCLVersion = '1.2.6.0'
   object Button1: TButton
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom

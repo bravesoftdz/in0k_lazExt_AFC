@@ -110,7 +110,7 @@ end;
 
 procedure TuiWND_in0k_lazExt_AFC_CFG._Settings2Form;
 begin
-    if Assigned(In0k_lazExt_AFC.In0k_lazExt_AFC) then
+   { if Assigned(In0k_lazExt_AFC.In0k_lazExt_AFC) then
         with In0k_lazExt_AFC.In0k_lazExt_AFC do begin
             AutoFoldComments_NAMEs_get(memo1.Lines);
             CheckBox2.Checked:=AutoFoldComments_LST;
@@ -119,19 +119,19 @@ begin
             then RadioButton1.Checked:=true
             else RadioButton2.Checked:=true;
             CheckBox1.Checked:=Extension_ON;
-        end;
+        end;  }
 end;
 
 procedure TuiWND_in0k_lazExt_AFC_CFG._form2Settings;
 begin
-    if Assigned(In0k_lazExt_AFC.In0k_lazExt_AFC) then
+  {  if Assigned(In0k_lazExt_AFC.In0k_lazExt_AFC) then
     with In0k_lazExt_AFC.In0k_lazExt_AFC do begin
         AutoFoldComments_NAMEs_set(memo1.Lines);
         AutoFoldComments_LST:=CheckBox2.Checked;
         AutoFoldComments_HFC:=CheckBox3.Checked;
         AutoFoldComments_ALL:=RadioButton1.Checked;
         Extension_ON:=CheckBox1.Checked;
-    end;
+    end;  }
 end;
 
 //------------------------------------------------------------------------------

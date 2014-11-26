@@ -36,11 +36,11 @@
     </CompilerOptions>
     <Description Value="Auto Fold Comments"/>
     <Version Minor="9"/>
-    <Files Count="7">
+    <Files Count="8">
       <Item1>
-        <Filename Value="in0k_lazExt_AFC_reg.pas"/>
+        <Filename Value="in0k_lazExt_AFC_withCbSFP_reg.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="in0k_lazExt_AFC_reg"/>
+        <UnitName Value="in0k_lazExt_AFC_withCbSFP_reg"/>
       </Item1>
       <Item2>
         <Filename Value="in0k_lazExt_AFC.pas"/>
@@ -59,13 +59,17 @@
         <UnitName Value="in0k_lazExt_AFC_wndDBG"/>
       </Item5>
       <Item6>
-        <Filename Value="srcPKG\AFC_Config.lfm"/>
-        <Type Value="LFM"/>
+        <Filename Value="srcPKG\AFC_Config_Editor.pas"/>
+        <UnitName Value="AFC_Config_Editor"/>
       </Item6>
       <Item7>
         <Filename Value="srcPKG\AFC_Config.pas"/>
         <UnitName Value="AFC_Config"/>
       </Item7>
+      <Item8>
+        <Filename Value="srcPKG\AFC_Config_Header.pas"/>
+        <UnitName Value="AFC_Config_Header"/>
+      </Item8>
     </Files>
     <Type Value="DesignTime"/>
     <RequiredPkgs Count="4">

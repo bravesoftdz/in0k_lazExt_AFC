@@ -5,192 +5,132 @@ unit AFC_Config;
 interface
 
 uses
-CbSFP_SubScriber,
-Classes, Forms, StdCtrls,
-  in0k_lazExt_AFC, in0k_lazExt_AFC_wndDBG;
-
-const
- cUiWND_in0k_lazExt_AFC_CFG_Caption='Configure "Auto Fold Comments" tool';
+  Classes, SysUtils;
 
 type
 
+tAFC_Config_Object = class
+ protected
+  _workList:tStrings; //< реально работающий список "Имен" (upCASE)
+   procedure _workList_Make;
+ protected
+  _nameList:tStrings; //< список "Имен"
+  _lazExtON:boolean;  //< мы вообще работаем
+  _fold_ALL:boolean;  //< сворачивать ВСЕ
+  _fold_LST:boolean;  //< сворачивать ВСЕ
+  _fold_HFC:boolean;  //< сворачивать Hint From Comment
+   procedure _nameList_set(const names:tStrings);
+   procedure _nameList_get(const names:tStrings);
+ public
+   constructor Create;
+   destructor DESTROY; //override;
+ public
+   procedure toDefSTATE;
+ public
+   property  Extension_ON        :boolean read _lazExtON write _lazExtON;
+   property  AutoFoldComments_ALL:boolean read _fold_ALL write _fold_ALL;
+   property  AutoFoldComments_LST:boolean read _fold_LST write _fold_LST;
+   property  AutoFoldComments_HFC:boolean read _fold_HFC write _fold_HFC;
+   procedure AutoFoldComments_NAMEs_get(const strings:TStrings);
+   procedure AutoFoldComments_NAMEs_set(const strings:TStrings);
+ end;
 
- tAFC_Config_Object = class
-
-  end;
-
-
-
- {inkDoc> "Окно" конфигурации
-   настройка работы `tIn0k_lazExt_AFC`
- <inkDoc}
-
- { tAFC_Config_Editor }
-
- tAFC_Config_Editor = class(TCbSFP_SubScriber_editor)
-    Button1: TButton;
-    Button2: TButton;
-    Button3: TButton;
-    CheckBox1: TCheckBox;
-    CheckBox2: TCheckBox;
-    CheckBox3: TCheckBox;
-    GroupBox1: TGroupBox;
-    Memo1: TMemo;
-    RadioButton1: TRadioButton;
-    RadioButton2: TRadioButton;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
-    procedure CheckBox1Change(Sender: TObject);
-    procedure RadioButton1Change(Sender: TObject);
-    procedure RadioButton2Change(Sender: TObject);
-  private
-    procedure _Settings2Form;
-    procedure _form2Settings;
-  private
-    procedure onCreate_setTexts;
-  public
-    constructor Create(TheOwner: TComponent); override;
-  public
-    procedure Settings_LOAD(const {%H-}Obj:pointer); override;
-    procedure Settings_SAVE(const {%H-}Obj:pointer); override;
-  end;
 
 implementation
 
-{$R *.lfm}
+const //< настройки по УМОЛЧАНИЮ
+   cIn0k_lazExt_AFN_defVAL_ExtnsnON=TRUE;     //<
+   cIn0k_lazExt_AFN_defVAL_fold_ALL=false;    //<
+   cIn0k_lazExt_AFN_defVAL_fold_LST=true;     //<
+   cIn0k_lazExt_AFN_defVAL_fold_HFC=true;     //<
+   cIn0k_lazExt_AFN_defVAL_lst_FOLD='/fold';
+   cIn0k_lazExt_AFN_defVAL_lst_TODO='todo';
 
-procedure tAFC_Config_Editor.Settings_LOAD(const Obj:pointer);
+
+constructor tAFC_Config_Object.Create;
 begin
-
+   _nameList:=TStringList.Create;
+   _workList:=NIL;
 end;
 
-procedure tAFC_Config_Editor.Settings_SAVE(const Obj:pointer);
+destructor tAFC_Config_Object.DESTROY; //override;
 begin
-
-end;
-
-
-const
-  cUiWND_in0k_lazExt_AFC_CFG_texts_L01='Use "Auto Fold Comments" tool.';
-  cUiWND_in0k_lazExt_AFC_CFG_texts_L02='Settings';
-
-  cUiWND_in0k_lazExt_AFC_CFG_texts_L03='fold All comments';
-  cUiWND_in0k_lazExt_AFC_CFG_texts_L04='fold selectively';
-
-  cUiWND_in0k_lazExt_AFC_CFG_texts_L05='use the "search list"';
-  cUiWND_in0k_lazExt_AFC_CFG_texts_L06='fold "Hint from Comment"';
-
-
-  cUiWND_in0k_lazExt_AFC_CFG_texts_B01='Save';
-  cUiWND_in0k_lazExt_AFC_CFG_texts_B02='set Default and Save';
-  cUiWND_in0k_lazExt_AFC_CFG_texts_B03='deBug window';
-
-constructor tAFC_Config_Editor.Create(TheOwner:TComponent);
-begin
-    inherited;
-    onCreate_setTexts;
-    //---
-    CheckBox1.Checked:=FALSE;
-    RadioButton1.Checked:=TRUE;
-end;
-
-procedure tAFC_Config_Editor.onCreate_setTexts;
-begin
-    self.Caption:=cUiWND_in0k_lazExt_AFC_CFG_Caption;
-    //---
-    CheckBox1.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_L01;
-    GroupBox1.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_L02;
-    //---
-    RadioButton1.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_L03;
-    RadioButton2.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_L04;
-       CheckBox2.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_L05;
-       CheckBox3.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_L06;
-    //---
-    Button1.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_B01;
-    Button2.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_B02;
-    Button3.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_B03;
+   _nameList.FREE;
+   _workList.FREE;
 end;
 
 //------------------------------------------------------------------------------
 
-
-procedure tAFC_Config_Editor._Settings2Form;
+procedure tAFC_Config_Object.toDefSTATE;
 begin
-    if Assigned(In0k_lazExt_AFC.In0k_lazExt_AFC) then
-        with In0k_lazExt_AFC.In0k_lazExt_AFC do begin
-            AutoFoldComments_NAMEs_get(memo1.Lines);
-            CheckBox2.Checked:=AutoFoldComments_LST;
-            CheckBox3.Checked:=AutoFoldComments_HFC;
-            if AutoFoldComments_ALL
-            then RadioButton1.Checked:=true
-            else RadioButton2.Checked:=true;
-            CheckBox1.Checked:=Extension_ON;
+   _lazExtON:=cIn0k_lazExt_AFN_defVAL_ExtnsnON;
+   _fold_ALL:=cIn0k_lazExt_AFN_defVAL_fold_ALL;
+   _fold_LST:=cIn0k_lazExt_AFN_defVAL_fold_LST;
+   _fold_HFC:=cIn0k_lazExt_AFN_defVAL_fold_HFC;
+   _nameList.Clear;
+   _nameList.Add(cIn0k_lazExt_AFN_defVAL_lst_FOLD);
+   _nameList.Add(cIn0k_lazExt_AFN_defVAL_lst_TODO);
+   _workList_Make;
+end;
+
+//------------------------------------------------------------------------------
+
+procedure tAFC_Config_Object._workList_Make;
+var i:integer;
+    s:string;
+begin // все переводим в UpperCase
+    if (not Assigned(_workList))and(not _fold_ALL)and(_fold_LST)
+    then _workList:=TStringList.Create;
+    //---
+    if Assigned(_workList) then begin
+       _workList.Clear;
+        if (not _fold_ALL)and(_fold_LST) then begin
+            for i:=0 to _nameList.Count-1 do begin
+                s:=UpperCase(_nameList.Strings[i]);
+                if (s<>'')and(_workList.IndexOf(s)<0) then _workList.Add(s);
+            end;
         end;
-end;
-
-procedure tAFC_Config_Editor._form2Settings;
-begin
-    if Assigned(In0k_lazExt_AFC.In0k_lazExt_AFC) then
-    with In0k_lazExt_AFC.In0k_lazExt_AFC do begin
-        AutoFoldComments_NAMEs_set(memo1.Lines);
-        AutoFoldComments_LST:=CheckBox2.Checked;
-        AutoFoldComments_HFC:=CheckBox3.Checked;
-        AutoFoldComments_ALL:=RadioButton1.Checked;
-        Extension_ON:=CheckBox1.Checked;
+    end;
+    //---
+    if Assigned(_workList) then begin
+        if _workList.Count=0 then begin
+            FreeAndNil(_workList);
+        end;
     end;
 end;
 
 //------------------------------------------------------------------------------
 
-procedure tAFC_Config_Editor.CheckBox1Change(Sender: TObject);
-begin
-    GroupBox1.Enabled:=CheckBox1.Checked;
+procedure tAFC_Config_Object._nameList_set(const names:tStrings);
+var i:integer;
+    s:string;
+begin // исключаем пустое и дублирование
+   _nameList.Clear;
+    for i:=0 to names.Count-1 do begin
+        s:=trim(names.Strings[i]);
+        if (s<>'')and(_nameList.IndexOf(s)<0) then _nameList.Add(s);
+    end;
+   _workList_Make;
 end;
 
-procedure tAFC_Config_Editor.RadioButton1Change(Sender: TObject);
+procedure tAFC_Config_Object._nameList_get(const names:tStrings);
 begin
-    memo1    .Enabled:=not RadioButton1.Checked;
-    CheckBox2.Enabled:=not RadioButton1.Checked;
-    CheckBox3.Enabled:=not RadioButton1.Checked;
-end;
-
-procedure tAFC_Config_Editor.RadioButton2Change(Sender: TObject);
-begin
-    memo1    .Enabled:=RadioButton2.Checked;
-    CheckBox2.Enabled:=RadioButton2.Checked;
-    CheckBox3.Enabled:=RadioButton2.Checked;
+    names.clear;
+    names.AddStrings(_nameList);
 end;
 
 //------------------------------------------------------------------------------
 
-procedure tAFC_Config_Editor.Button1Click(Sender: TObject);
+procedure tAFC_Config_Object.AutoFoldComments_NAMEs_get(const strings:TStrings);
 begin
-    if Assigned(In0k_lazExt_AFC.In0k_lazExt_AFC) then begin
-      _form2Settings;
-       In0k_lazExt_AFC.In0k_lazExt_AFC.SaveSettings;
-      _Settings2Form;
-    end;
+   _nameList_get(strings);
 end;
 
-procedure tAFC_Config_Editor.Button2Click(Sender: TObject);
+procedure tAFC_Config_Object.AutoFoldComments_NAMEs_set(const strings:TStrings);
 begin
-    if Assigned(In0k_lazExt_AFC.In0k_lazExt_AFC) then begin
-        In0k_lazExt_AFC.In0k_lazExt_AFC.SaveDefSettings;
-       _Settings2Form;
-    end;
+   _nameList_set(strings);
 end;
 
-procedure tAFC_Config_Editor.Button3Click(Sender: TObject);
-begin
-    {$ifOpt D+}
-       _dbgLOG_SHOW;
-    {$else}
-       //sdf
-    {$endIf}
-end;
 
-initialization
-AFC_Config_Editor:=nil;
 end.
 

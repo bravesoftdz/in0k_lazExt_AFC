@@ -1,7 +1,7 @@
 object AFC_Config_Editor: TAFC_Config_Editor
-  Left = 0
+  Left = 641
   Height = 302
-  Top = 0
+  Top = 139
   Width = 500
   ChildSizing.LeftRightSpacing = 4
   ChildSizing.TopBottomSpacing = 4
@@ -9,9 +9,7 @@ object AFC_Config_Editor: TAFC_Config_Editor
   ChildSizing.VerticalSpacing = 4
   ClientHeight = 302
   ClientWidth = 500
-  TabOrder = 0
-  DesignLeft = 517
-  DesignTop = 125
+  LCLVersion = '1.2.6.0'
   object Button1: TButton
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
@@ -24,7 +22,6 @@ object AFC_Config_Editor: TAFC_Config_Editor
     Anchors = [akRight, akBottom]
     AutoSize = True
     Caption = 'Button1'
-    OnClick = Button1Click
     TabOrder = 0
   end
   object CheckBox1: TCheckBox
@@ -146,7 +143,6 @@ object AFC_Config_Editor: TAFC_Config_Editor
     Anchors = [akRight, akBottom]
     AutoSize = True
     Caption = 'Button2'
-    OnClick = Button2Click
     TabOrder = 3
   end
   object Button3: TButton
@@ -161,7 +157,6 @@ object AFC_Config_Editor: TAFC_Config_Editor
     Anchors = [akLeft, akBottom]
     AutoSize = True
     Caption = 'Button3'
-    OnClick = Button3Click
     TabOrder = 4
   end
 end
