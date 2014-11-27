@@ -35,19 +35,19 @@ end;
 
 //------------------------------------------------------------------------------
 
-function tAFC_Config_Header.ConfigOBJ_CRT:tCbSFP_SubScriber_cnfOBJ;
+function tAFC_Config_Header.ConfigOBJ_CRT:pointer;
 begin
-    result:=tAFC_Config_Object.Create;
+    result:=AFC_Config_Object__CRT;
 end;
 
-procedure tAFC_Config_Header.ConfigOBJ_DST(const Obj:tCbSFP_SubScriber_cnfOBJ);
+procedure tAFC_Config_Header.ConfigOBJ_DST(const Obj:pointer);
 begin
-    tAFC_Config_Object(Obj).FREE;
+    AFC_Config_Object__DST(Obj);
 end;
 
-procedure tAFC_Config_Header.ConfigOBJ_DEF(const Obj:tCbSFP_SubScriber_cnfOBJ);
+procedure tAFC_Config_Header.ConfigOBJ_DEF(const Obj:pointer);
 begin
-    tAFC_Config_Object(Obj).toDefSTATE;
+    AFC_Config_Object__DEF(Obj);
 end;
 
 //------------------------------------------------------------------------------

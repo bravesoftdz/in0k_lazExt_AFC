@@ -1,3 +1,5 @@
 lib/*
 
 backup/*
+backup/AFC_Config.pas.bak
+backup/
