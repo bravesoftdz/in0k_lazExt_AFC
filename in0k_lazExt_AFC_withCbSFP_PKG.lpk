@@ -67,8 +67,8 @@
         <UnitName Value="AFC_Config"/>
       </Item7>
       <Item8>
-        <Filename Value="srcPKG\AFC_Config_Header.pas"/>
-        <UnitName Value="AFC_Config_Header"/>
+        <Filename Value="srcPKG\AFC_Config_Handle.pas"/>
+        <UnitName Value="AFC_Config_Handle"/>
       </Item8>
     </Files>
     <Type Value="DesignTime"/>

@@ -56,12 +56,12 @@ implementation
 
 procedure tAFC_Config_Editor.Settings_LOAD(const Obj:pointer);
 begin
-   //_Settings2Form(tAFC_Config_Object(obj));
+   _Settings2Form(pAFC_Config_Object(obj));
 end;
 
 procedure tAFC_Config_Editor.Settings_SAVE(const Obj:pointer);
 begin
-  // _form2Settings(tAFC_Config_Object(obj));
+   _form2Settings(pAFC_Config_Object(obj));
 end;
 
 //------------------------------------------------------------------------------
@@ -112,26 +112,26 @@ end;
 
 procedure tAFC_Config_Editor._Settings2Form(const obj:pAFC_Config_Object);
 begin
-    {if Assigned(obj) then with OBJ do begin
-        AutoFoldComments_NAMEs_get(memo1.Lines);
-        CheckBox2.Checked:=AutoFoldComments_LST;
-        CheckBox3.Checked:=AutoFoldComments_HFC;
-        if AutoFoldComments_ALL
-        then RadioButton1.Checked:=true
-        else RadioButton2.Checked:=true;
-        CheckBox1.Checked:=Extension_ON;
-    end;}
+    if Assigned(obj) then with OBJ^ do begin
+        CheckBox2.Checked:=fold_LST;
+        CheckBox3.Checked:=fold_HFC;
+        CheckBox1.Checked:=lazExtON;
+        AFC_Config_Object__nameList_SAVE(obj,memo1.Lines);
+    end;
+    if OBJ^.fold_ALL
+    then RadioButton1.Checked:=true
+    else RadioButton2.Checked:=true;
 end;
 
 procedure tAFC_Config_Editor._form2Settings(const obj:pAFC_Config_Object);
 begin
-    {if Assigned(obj) then with OBJ do begin
-        AutoFoldComments_NAMEs_set(memo1.Lines);
-        AutoFoldComments_LST:=CheckBox2.Checked;
-        AutoFoldComments_HFC:=CheckBox3.Checked;
-        AutoFoldComments_ALL:=RadioButton1.Checked;
-        Extension_ON:=CheckBox1.Checked;
-    end;}
+    if Assigned(obj) then with OBJ^ do begin
+        fold_LST:=CheckBox2.Checked;
+        fold_HFC:=CheckBox3.Checked;
+        fold_ALL:=RadioButton1.Checked;
+        lazExtON:=CheckBox1.Checked;
+        AFC_Config_Object__nameList_LOAD(obj,memo1.Lines);
+    end;
 end;
 
 //------------------------------------------------------------------------------

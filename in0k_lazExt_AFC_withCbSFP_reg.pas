@@ -4,7 +4,7 @@ unit in0k_lazExt_AFC_withCbSFP_reg;
 
 interface
 
-uses AFC_Config_Editor, AFC_Config_Header,
+uses AFC_Config_Editor, AFC_Config_Handle,
     CbSFP__Intf;
 
 procedure Register;
@@ -13,7 +13,7 @@ implementation
 
 procedure Register;
 begin
-    CbSFP_SubScriber__REGISTER(tAFC_Config_Header,tAFC_Config_Editor);
+    CbSFP_SubScriber__REGISTER(tAFC_Config_Handle,tAFC_Config_Editor);
 end;
 
 end.
