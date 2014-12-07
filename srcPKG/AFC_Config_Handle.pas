@@ -18,8 +18,8 @@ type
     procedure ConfigOBJ_DEF(const Obj:pointer); override;
   public //< работа с файлом
     function  ConfigOBJ_FileEXT:string; override;
-    function  ConfigOBJ_Save(const Obj:pointer; const FileName:string; const Used:boolean):boolean; override;
-    function  ConfigOBJ_Load(const Obj:pointer; const FileName:string; var   Used:boolean):boolean; override;
+    function  ConfigOBJ_Save(const Obj:pointer; const FileName:string):boolean; override;
+    function  ConfigOBJ_Load(const Obj:pointer; const FileName:string):boolean; override;
   end;
 
 procedure AFC_Config_SAVE(const Config:pAFC_Config_Object; const FileName:string);
@@ -141,12 +141,12 @@ end;
 
 //------------------------------------------------------------------------------
 
-function tAFC_Config_Handle.ConfigOBJ_Save(const Obj:pointer; const FileName:string; const Used:boolean):boolean;
+function tAFC_Config_Handle.ConfigOBJ_Save(const Obj:pointer; const FileName:string):boolean;
 begin
     AFC_Config_SAVE(pAFC_Config_Object(Obj),FileName);
 end;
 
-function tAFC_Config_Handle.ConfigOBJ_Load(const Obj:pointer; const FileName:string; var   Used:boolean):boolean;
+function tAFC_Config_Handle.ConfigOBJ_Load(const Obj:pointer; const FileName:string):boolean;
 begin
     AFC_Config_LOAD(pAFC_Config_Object(Obj),FileName);
 end;
