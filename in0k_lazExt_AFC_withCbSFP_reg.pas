@@ -16,7 +16,7 @@ implementation
 
 procedure Register;
 begin
-    CbSFP_SubScriber__REGISTER(tAFC_Config_Handle,tAFC_Config_Editor);
+    //CbSFP_SubScriber__REGISTER(tAFC_Config_Handle,tAFC_Config_Editor);
     In0k_lazExt_AFC__CREATE;
 end;
 

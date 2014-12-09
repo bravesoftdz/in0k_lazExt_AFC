@@ -9,7 +9,8 @@ CbSFP_SubScriber,//, in0k_lazExt_AFC_wndDBG,
 Classes, Forms, StdCtrls,
 
 AFC_Config,
-  in0k_lazExt_AFC, in0k_lazExt_AFC_wndDBG;
+//  in0k_lazExt_AFC,
+in0k_lazExt_AFC_wndDBG;
 
 const
  cUiWND_in0k_lazExt_AFC_CFG_Caption='Configure "Auto Fold Comments" tool';

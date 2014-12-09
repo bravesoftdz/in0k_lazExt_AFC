@@ -13,6 +13,10 @@ interface
 
 uses {$ifOpt D+} in0k_lazExt_AFC_wndDBG, {$endIf}
     Classes, sysutils,
+    AFC_Config_Editor,
+     AFC_Config_Handle,
+    // in0k_lazExt_AFC,
+     CbSFP__Intf,
     LazConfigStorage,
     BaseIDEIntf, LazIDEIntf, SrcEditorIntf,
     CodeCache, SynEdit,
@@ -32,6 +36,9 @@ type
   protected //< СОБЫТИЯ
     procedure _ideEvent_srcEditorActivate(Sender: TObject);
     procedure _ideEvent_closeIDE(Sender: TObject);
+  protected
+   _SubScriber_:pointer;
+    procedure _SubScriber_Register;
   protected //< и их РЕГИСТРАЦИЯ
     procedure _ideEvents_Register;
     procedure _ideEvents_unRegister;
@@ -64,6 +71,7 @@ constructor tIn0k_lazExt_AFC.Create;
 begin
    _lastProc:=nil;
     //---
+   _SubScriber_Register;
    _ideEvents_register;
 end;
 
@@ -111,6 +119,12 @@ begin
     SourceEditorManagerIntf.UnRegisterChangeEvent(cIn0k_lazExt_AFNC_registerEvent, @_ideEvent_srcEditorActivate);
 end;
 
+procedure tIn0k_lazExt_AFC._SubScriber_Register;
+begin
+   _SubScriber_:=CbSFP_SubScriber__REGISTER(tAFC_Config_Handle,tAFC_Config_Editor);
+end;
+
+
 {%endregion}
 
 {%region --- ВСЯ СУТь --------------------------------------------- /fold}
@@ -146,6 +160,10 @@ end;
 procedure tIn0k_lazExt_AFC._perform_AFC;
 var tmpEdit:tIn0k_lazExt_AFC_synEdit;
     CodeBuf:TCodeBuffer;
+
+    cnf:pointer;
+
+
 begin
     tmpEdit:=_perform_AFC_getActiveEditor(CodeBuf);
     if Assigned(tmpEdit) and Assigned(CodeBuf) then begin
@@ -159,6 +177,14 @@ begin
             {$ifOpt D+}
            _dbgLOG_(' ==== START for file :'+CodeBuf.Filename);
             {$endIf}
+
+            cnf:=CbSFP_SubScriber__cnfg_OBJ(_SubScriber_,CodeBuf.Filename);
+
+            {$ifOpt D+}
+            if cnf<>nil then
+           _dbgLOG_(' ==== CNFG FIND :'+IntToHex(int64(cnf),8));
+            {$endIf}
+
             {if not _fold_ALL then begin
                 if not _fold_HFC
 
