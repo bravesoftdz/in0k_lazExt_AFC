@@ -5,7 +5,7 @@ unit AFC_Config_Editor;
 interface
 
 uses
-CbSFP_SubScriber,
+CbSFP_SubScriber,//, in0k_lazExt_AFC_wndDBG,
 Classes, Forms, StdCtrls,
 
 AFC_Config,
@@ -35,6 +35,7 @@ type
     Memo1: TMemo;
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
+    procedure Button3Click(Sender: TObject);
     procedure CheckBox1Change(Sender: TObject);
     procedure RadioButton1Change(Sender: TObject);
     procedure RadioButton2Change(Sender: TObject);
@@ -139,6 +140,11 @@ end;
 procedure tAFC_Config_Editor.CheckBox1Change(Sender: TObject);
 begin
     GroupBox1.Enabled:=CheckBox1.Checked;
+end;
+
+procedure tAFC_Config_Editor.Button3Click(Sender: TObject);
+begin
+  _dbgLOG_SHOW
 end;
 
 procedure tAFC_Config_Editor.RadioButton1Change(Sender: TObject);

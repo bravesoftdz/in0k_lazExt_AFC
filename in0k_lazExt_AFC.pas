@@ -51,8 +51,8 @@ type
     constructor Create;
     destructor DESTROY; override;
   public
-    procedure SaveSettings;
-    procedure SaveDefSettings;
+    //procedure SaveSettings;
+    //procedure SaveDefSettings;
   end;
 
 procedure In0k_lazExt_AFC__CREATE;
@@ -63,10 +63,6 @@ implementation
 constructor tIn0k_lazExt_AFC.Create;
 begin
    _lastProc:=nil;
-  // _nameList:=TStringList.Create;
-  // _workList:=NIL;
-    //---
-  // _settings_Load;
     //---
    _ideEvents_register;
 end;
@@ -96,7 +92,7 @@ begin
     {*3> рабочее Событие. /fold
         При АКТИВАЦИИ вкладки редактора исходного кода выполняем "ДОБАВКУ"
     <*3}
-   // if _lazExtON then _perform_AFC;
+    {if _lazExtON then} _perform_AFC;
 end;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -176,33 +172,11 @@ begin
             {$endIf}
            _lastProc:=tmpEdit;
         end;
-    end;
+    end
+    else _lastProc:=nil;
 end;
 
 {%endregion}
-
-{%region --- НАСТРОЙКИ -------------------------------------------- /fold}
-
-
-
-//------------------------------------------------------------------------------
-
-
-{%endregion}
-
-
-//------------------------------------------------------------------------------
-
-procedure tIn0k_lazExt_AFC.SaveDefSettings;
-begin
-//   _settings_toDefault;
-//   _settings_Save;
-end;
-
-procedure tIn0k_lazExt_AFC.SaveSettings;
-begin
-//   _settings_Save;
-end;
 
 //==============================================================================
 var _In0k_lazExt_AFNC_:tIn0k_lazExt_AFC;
