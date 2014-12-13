@@ -11,7 +11,7 @@ object uiWND_in0k_lazExt_AFC_DBG: TuiWND_in0k_lazExt_AFC_DBG
   ChildSizing.VerticalSpacing = 2
   ClientHeight = 446
   ClientWidth = 580
-  LCLVersion = '1.2.0.3'
+  LCLVersion = '1.2.2.0'
   object Memo1: TMemo
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Button1
@@ -26,7 +26,7 @@ object uiWND_in0k_lazExt_AFC_DBG: TuiWND_in0k_lazExt_AFC_DBG
     Width = 576
     Anchors = [akTop, akLeft, akRight, akBottom]
     Font.CharSet = RUSSIAN_CHARSET
-    Font.Height = -13
+    Font.Height = -11
     Font.Name = 'Courier New'
     Font.Pitch = fpFixed
     Font.Quality = fqDraft

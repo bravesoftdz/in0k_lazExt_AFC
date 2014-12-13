@@ -1,59 +1,47 @@
 object AFC_Config_Editor: TAFC_Config_Editor
-  Left = 641
-  Height = 302
+  Left = 401
+  Height = 329
   Top = 139
-  Width = 500
+  Width = 740
   ChildSizing.LeftRightSpacing = 4
   ChildSizing.TopBottomSpacing = 4
   ChildSizing.HorizontalSpacing = 4
   ChildSizing.VerticalSpacing = 4
-  ClientHeight = 302
-  ClientWidth = 500
+  ClientHeight = 329
+  ClientWidth = 740
   LCLVersion = '1.2.2.0'
-  object Button1: TButton
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Owner
-    AnchorSideBottom.Side = asrBottom
-    Left = 428
-    Height = 25
-    Top = 273
-    Width = 68
-    Anchors = [akRight, akBottom]
-    AutoSize = True
-    Caption = 'Button1'
-    TabOrder = 0
-  end
   object CheckBox1: TCheckBox
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
+    AnchorSideTop.Control = Button2
+    AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 4
     Height = 19
-    Top = 4
-    Width = 492
+    Top = 7
+    Width = 732
     Anchors = [akTop, akLeft, akRight]
     Caption = 'CheckBox1'
     OnChange = CheckBox1Change
-    TabOrder = 1
+    TabOrder = 0
   end
   object GroupBox1: TGroupBox
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = CheckBox1
+    AnchorSideTop.Control = Button2
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Button1
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
     Left = 4
-    Height = 242
-    Top = 27
-    Width = 492
+    Height = 292
+    Top = 33
+    Width = 732
     Anchors = [akTop, akLeft, akRight, akBottom]
     Caption = 'GroupBox1'
-    ClientHeight = 224
-    ClientWidth = 488
-    TabOrder = 2
+    ClientHeight = 274
+    ClientWidth = 728
+    TabOrder = 1
     object RadioButton1: TRadioButton
       AnchorSideLeft.Control = GroupBox1
       AnchorSideTop.Control = GroupBox1
@@ -62,7 +50,7 @@ object AFC_Config_Editor: TAFC_Config_Editor
       Left = 0
       Height = 19
       Top = 0
-      Width = 488
+      Width = 728
       Anchors = [akTop, akLeft, akRight]
       Caption = 'RadioButton1'
       OnChange = RadioButton1Change
@@ -77,7 +65,7 @@ object AFC_Config_Editor: TAFC_Config_Editor
       Left = 0
       Height = 19
       Top = 19
-      Width = 488
+      Width = 728
       Anchors = [akTop, akLeft, akRight]
       Caption = 'RadioButton2'
       OnChange = RadioButton2Change
@@ -89,11 +77,12 @@ object AFC_Config_Editor: TAFC_Config_Editor
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = GroupBox1
       AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = CheckBox3
+      AnchorSideBottom.Control = GroupBox1
+      AnchorSideBottom.Side = asrBottom
       Left = 8
-      Height = 144
-      Top = 57
-      Width = 480
+      Height = 194
+      Top = 76
+      Width = 720
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Bottom = 4
       Lines.Strings = (
@@ -103,13 +92,13 @@ object AFC_Config_Editor: TAFC_Config_Editor
     end
     object CheckBox2: TCheckBox
       AnchorSideLeft.Control = RadioButton2
-      AnchorSideTop.Control = RadioButton2
+      AnchorSideTop.Control = CheckBox3
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = Memo1
       AnchorSideRight.Side = asrBottom
       Left = 8
       Height = 19
-      Top = 38
+      Top = 57
       Width = 78
       BorderSpacing.Left = 8
       Caption = 'CheckBox2'
@@ -117,47 +106,47 @@ object AFC_Config_Editor: TAFC_Config_Editor
     end
     object CheckBox3: TCheckBox
       AnchorSideLeft.Control = CheckBox2
-      AnchorSideTop.Control = Memo1
+      AnchorSideTop.Control = RadioButton2
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = Memo1
       AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = GroupBox1
       AnchorSideBottom.Side = asrBottom
       Left = 8
       Height = 19
-      Top = 205
-      Width = 480
-      Anchors = [akLeft, akRight, akBottom]
+      Top = 38
+      Width = 720
+      Anchors = [akTop, akLeft, akRight]
       Caption = 'CheckBox3'
       TabOrder = 4
     end
   end
   object Button2: TButton
-    AnchorSideRight.Control = Button1
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 356
+    Left = 668
     Height = 25
-    Top = 273
+    Top = 4
     Width = 68
-    Anchors = [akRight, akBottom]
+    Anchors = [akTop, akRight]
     AutoSize = True
     Caption = 'Button2'
-    TabOrder = 3
+    TabOrder = 2
   end
   object Button3: TButton
-    AnchorSideLeft.Control = Owner
-    AnchorSideRight.Control = Button1
-    AnchorSideBottom.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Button2
     AnchorSideBottom.Side = asrBottom
-    Left = 4
+    Left = 596
     Height = 25
-    Top = 273
+    Top = 4
     Width = 68
-    Anchors = [akLeft, akBottom]
+    Anchors = [akTop, akRight]
     AutoSize = True
     Caption = 'Button3'
     OnClick = Button3Click
-    TabOrder = 4
+    TabOrder = 3
   end
 end

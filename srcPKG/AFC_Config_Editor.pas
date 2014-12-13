@@ -26,7 +26,6 @@ type
  { tAFC_Config_Editor }
 
  tAFC_Config_Editor = class(TCbSFP_SubScriber_editor)
-    Button1: TButton;
     Button2: TButton;
     Button3: TButton;
     CheckBox1: TCheckBox;
@@ -57,8 +56,11 @@ implementation
 {$R *.lfm}
 
 procedure tAFC_Config_Editor.Settings_LOAD(const Obj:pointer);
+//var i:real;
 begin
+   // i:=0;
    _Settings2Form(pAFC_Config_Object(obj));
+    //i:=1/i;
 end;
 
 procedure tAFC_Config_Editor.Settings_SAVE(const Obj:pointer);
@@ -79,7 +81,7 @@ const
   cUiWND_in0k_lazExt_AFC_CFG_texts_L06='fold "Hint from Comment"';
 
 
-  cUiWND_in0k_lazExt_AFC_CFG_texts_B01='Save';
+  //cUiWND_in0k_lazExt_AFC_CFG_texts_B01='Save';
   cUiWND_in0k_lazExt_AFC_CFG_texts_B02='set Default and Save';
   cUiWND_in0k_lazExt_AFC_CFG_texts_B03='deBug window';
 
@@ -104,7 +106,7 @@ begin
        CheckBox2.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_L05;
        CheckBox3.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_L06;
     //---
-    Button1.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_B01;
+    //Button1.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_B01;
     Button2.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_B02;
     Button3.Caption:=cUiWND_in0k_lazExt_AFC_CFG_texts_B03;
 end;
@@ -123,6 +125,7 @@ begin
     if OBJ^.fold_ALL
     then RadioButton1.Checked:=true
     else RadioButton2.Checked:=true;
+    memo1.Lines.Add('asd');
 end;
 
 procedure tAFC_Config_Editor._form2Settings(const obj:pAFC_Config_Object);
