@@ -64,8 +64,11 @@ begin
 end;
 
 procedure tAFC_Config_Editor.Settings_SAVE(const Obj:pointer);
+var i:real;
 begin
+  //  i:=0;
    _form2Settings(pAFC_Config_Object(obj));
+  //  i:=1/i;
 end;
 
 //------------------------------------------------------------------------------
@@ -113,19 +116,21 @@ end;
 
 //------------------------------------------------------------------------------
 
-
 procedure tAFC_Config_Editor._Settings2Form(const obj:pAFC_Config_Object);
 begin
+    memo1.Clear;
+    memo1.Lines.Add('asd1');
     if Assigned(obj) then with OBJ^ do begin
         CheckBox2.Checked:=fold_LST;
         CheckBox3.Checked:=fold_HFC;
         CheckBox1.Checked:=lazExtON;
-        AFC_Config_Object__nameList_SAVE(obj,memo1.Lines);
+        //AFC_Config_Object__nameList_SAVE(obj,memo1.Lines);
+        memo1.Lines.AddStrings(obj^.nameList);
     end;
     if OBJ^.fold_ALL
     then RadioButton1.Checked:=true
     else RadioButton2.Checked:=true;
-    memo1.Lines.Add('asd');
+    memo1.Lines.Add('asd2');
 end;
 
 procedure tAFC_Config_Editor._form2Settings(const obj:pAFC_Config_Object);
