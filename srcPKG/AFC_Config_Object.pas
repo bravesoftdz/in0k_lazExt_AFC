@@ -1,4 +1,4 @@
-unit AFC_Config;
+unit AFC_Config_Object;
 
 {$mode objfpc}{$H+}
 
@@ -54,7 +54,7 @@ procedure _AFC_Config_Object__workList_Make(const CFG:pAFC_Config_Object);
 var i:integer;
     s:string;
 begin // все переводим в UpperCase
-    {with CFG^ do begin
+    with CFG^ do begin
         if (not Assigned(workList))and(not fold_ALL)and(fold_LST)
         then workList:=TStringList.Create;
         //---
@@ -73,7 +73,7 @@ begin // все переводим в UpperCase
                 FreeAndNil(workList);
             end;
         end;
-    end;}
+    end;
 end;
 
 procedure AFC_Config_Object__DEF(const CFG:pAFC_Config_Object);
@@ -87,7 +87,7 @@ begin
        nameList.Add(cIn0k_lazExt_AFN_defVAL_lst_FOLD);
        nameList.Add(cIn0k_lazExt_AFN_defVAL_lst_TODO);
     end;
- //  _AFC_Config_Object__workList_Make(CFG);
+   _AFC_Config_Object__workList_Make(CFG);
 end;
 
 //------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ begin // исключаем пустое и дублирование
             if (s<>'')and(nameList.IndexOf(s)<0) then nameList.Add(s);
         end;
     end;
- //  _AFC_Config_Object__workList_Make(CFG);
+   _AFC_Config_Object__workList_Make(CFG);
 end;
 
 procedure AFC_Config_Object__nameList_SAVE(const CFG:pAFC_Config_Object; const names:tStrings);

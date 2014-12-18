@@ -63,8 +63,8 @@
         <UnitName Value="AFC_Config_Editor"/>
       </Item6>
       <Item7>
-        <Filename Value="srcPKG\AFC_Config.pas"/>
-        <UnitName Value="AFC_Config"/>
+        <Filename Value="srcPKG\AFC_Config_Object.pas"/>
+        <UnitName Value="AFC_Config_Object"/>
       </Item7>
       <Item8>
         <Filename Value="srcPKG\AFC_Config_Handle.pas"/>

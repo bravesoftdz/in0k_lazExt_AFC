@@ -4,7 +4,7 @@ unit AFC_Config_Handle;
 
 interface
 
-uses  CbSFP_SubScriber, AFC_Config, BaseIDEIntf, LazConfigStorage,
+uses  CbSFP_SubScriber, AFC_Config_Object, BaseIDEIntf, LazConfigStorage,
   Classes, SysUtils;
 
 type
@@ -27,7 +27,7 @@ procedure AFC_Config_LOAD(const Config:pAFC_Config_Object; const FileName:string
 
 implementation
 
-{$region --- сохранение конфигурации в TConfigStorage -------------------}
+{$region --- сохранение конфигурации в TConfigStorage ------------ /fold }
 
 const //< названия узлов в "конфиге"
    cIn0k_lazExt_AFC_NN_ExtnsnON='ExtnsnON';
@@ -71,14 +71,19 @@ end;
 
 {$endregion}
 
-{$region --- сохранение конфигурации в ФАЙЛ -----------------------------}
+{$region --- сохранение конфигурации в ФАЙЛ ---------------------- /fold }
 
 function _ideConfigStorage_GET_(const FileName:string):tConfigStorage;
 begin
+    try
     result:=GetIDEConfigStorage(
         FileName,
         FileExists(FileName) //< если он есть то ЧИТАЕМ
             );
+
+    except
+      Raise Exception.Create('_ideConfigStorage_GET_');
+    end;
 end;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -90,7 +95,7 @@ begin
     //---
    _AFC_Config_SAVE_(Config,configStorage);
     //---
-    configStorage.WriteToDisk;
+    //configStorage.WriteToDisk;
     configStorage.FREE;
 end;
 
