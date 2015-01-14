@@ -213,7 +213,15 @@ begin
     {$endIf}
     //--------------------------------------------------------------------------
     result:=TRUE;
+    if cnfgOBJ^.lazExtON then begin
 
+
+    end
+    else begin
+        {$ifOpt D+}
+        DEBUG('Execute ','SKIP lazExt AFC -> OFF');
+        {$endIf}
+    end;
     {if not _fold_ALL then begin
         if not _fold_HFC
 
