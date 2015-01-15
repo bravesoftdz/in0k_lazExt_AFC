@@ -55,6 +55,7 @@ type
     procedure _ideEvents_unRegister;
   protected
     function  _DEBUG_get_ActiveEditor_Name:string;
+  public
     procedure  DEBUG(const msgType,msgText:string);
   public
     constructor Create;
@@ -84,6 +85,9 @@ end;
 //------------------------------------------------------------------------------
 
 
+{sdf asdf asdf asdf
+asdf asdf asdf
+asdf asdf }
 
 {%region --- события IDE Lazarus ---------------------------------- /fold}
 
@@ -207,6 +211,7 @@ end;
 
 
 function tIn0k_lazExt_AFC._perform_AFC_execute(const afcEdit:tIn0k_lazExt_AFC_synEdit; const cnfgOBJ:pAFC_Config_Object):boolean;
+var codeBUF:TCodeBuffer;
 begin
     {$ifOpt D+}
     DEBUG('Execute ','>>>>> START ===== '+'afcSynEDIT->@'+IntToHex( PtrUInt(pointer(afcEdit)), sizeOf(pointer)*2 )+' cnfgOBJ->@'+IntToHex( PtrUInt(pointer(cnfgOBJ)), sizeOf(pointer)*2 ));
@@ -214,23 +219,32 @@ begin
     //--------------------------------------------------------------------------
     result:=TRUE;
     if cnfgOBJ^.lazExtON then begin
+        if cnfgOBJ^.fold_ALL then afcEdit.foldComments_ALL
+        else begin
+            if not cnfgOBJ^.fold_HFC then codeBUF:=nil
+            else begin
+                {todo: find codeBUF}
+                codeBUF:=nil
+            end;
+            //---
+            afcEdit.foldComments_Name(cnfgOBJ^.workList,codeBUF);
 
+            {if not _fold_ALL then begin
+                if not _fold_HFC
 
+                //then CodeBuf:=nil; //< использовать НЕ будем
+                then ActvEdt.foldComments_Name(_workList,nil)
+                else ActvEdt.foldComments_Name(_workList,CodeBuf)
+            end
+            else ActvEdt.foldComments_ALL;   }
+
+        end;
     end
     else begin
         {$ifOpt D+}
         DEBUG('Execute ','SKIP lazExt AFC -> OFF');
         {$endIf}
     end;
-    {if not _fold_ALL then begin
-        if not _fold_HFC
-
-        //then CodeBuf:=nil; //< использовать НЕ будем
-        then ActvEdt.foldComments_Name(_workList,nil)
-        else ActvEdt.foldComments_Name(_workList,CodeBuf)
-    end
-    else ActvEdt.foldComments_ALL;   }
-    afcEdit.foldComments_ALL;
     //--------------------------------------------------------------------------
     {$ifOpt D+}
     DEBUG('Execute ','<<<<<  END  =====');

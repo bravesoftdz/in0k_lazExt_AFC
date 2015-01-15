@@ -18,11 +18,25 @@ FindDeclarationTool,CodeToolManager, CodeCache,
 
 type
 
+ {sadfasdfasd fasdf} {asdf as
+ asdf asdf
+ asdf asdf
+ asdf asdf df }
+
+
 { tIn0k_lazExt_AFC_synEditFoldProvider=class(TSynEditFoldProvider)
   protected
    function FoldTree:TSynTextFoldAVLTree;
 
-  end; }
+  end; }    {sdfg sdfg sdfg
+ dsfg sdfg dsfg
+
+ {sdf asdf asdf
+ asdf asdf as
+ df asdf }
+
+ sdfg sdfg sdfg
+ sdfg sdfg }
 
  tIn0k_lazExt_AFC_synEditFoldedView=class(TSynEditFoldedView)
   public
@@ -34,8 +48,12 @@ type
     `TCustomSynEdit.TextView`, которое "скрыто" в `TSynEdit`.
   <inkDoc}
  tIn0k_lazExt_AFC_synEdit=class(TCustomSynEdit)
+
+  protected
+    procedure  DEBUG(const msgType,msgText:string);
   protected
     procedure _FOLD_FldInf   (const FldInf:TSynFoldNodeInfo; const idFold:integer); inline;
+    procedure _FOLD_(const FldInf:TSynFoldNodeInfo; const idFold:integer; out lineCount:integer); inline;
   protected
     function _mastFold_mstPRC(const FldInf:TSynFoldNodeInfo):boolean; inline;
     function _mastFold_by_LST(const FldInf:TSynFoldNodeInfo; const names:tStrings):boolean;
@@ -46,6 +64,7 @@ type
   end;
 
 implementation
+uses in0k_lazExt_AFC;
 
 
 {docHint> слопнуть                                                       <
@@ -55,12 +74,29 @@ implementation
 procedure tIn0k_lazExt_AFC_synEdit._FOLD_FldInf(const FldInf:TSynFoldNodeInfo; const idFold:integer);
 begin
     {$ifOpt D+}
-   _dbgLOG_('fold :-> idLine='+inttostr(FldInf.LineIndex+1)+' idFold='+inttostr(idFold) +
-                    ' Column='+inttostr(FldInf.LogXStart+1)+' ColLEN='+inttostr(FldInf.LogXEnd-FldInf.LogXStart));
+    Debug('FOLD','idLine='+inttostr(FldInf.LineIndex+1)+' '+
+                 'idFold='+inttostr(idFold)+' '+
+                 'Column='+inttostr(FldInf.LogXStart+1)+' '+
+                 'ColLEN='+inttostr(FldInf.LogXEnd-FldInf.LogXStart)
+                 );
     {$endIf}
     {TODO: надо бы поразбираться с этим вызовом (с этим семейством вызовов)}
     TextView.FoldAtTextIndex(FldInf.LineIndex,idFold,1,False,1)
 end;
+
+procedure tIn0k_lazExt_AFC_synEdit._FOLD_(const FldInf:TSynFoldNodeInfo; const idFold:integer; out lineCount:integer);
+begin
+    {TODO: надо бы поразбираться с этим вызовом (с этим семейством вызовов)}
+    TextView.FoldAtTextIndex(FldInf.LineIndex,idFold,1,False,1);
+    lineCount:=TextView.FoldProvider.FoldLineLength(FldInf.LineIndex,idFold);
+    {$ifOpt D+}
+    Debug('FOLD','Line='+inttostr(FldInf.LineIndex+1)+' '+
+                 'idFold='+inttostr(idFold)+'-'+inttostr(FldInf.LogXStart+1)+'-'+inttostr(FldInf.LogXEnd-FldInf.LogXStart)+' '+
+                 'FOLDedLINEs='+inttostr(lineCount)
+                 );
+    {$endIf}
+end;
+
 
 //------------------------------------------------------------------------------
 
@@ -83,45 +119,60 @@ end;
        end;
    ~~~~~
 :TODO}
+{ перечисление ВСЕХ СВЕРНУТЫХ
+fldND:=tIn0k_lazExt_AFC_synEditFoldedView(TextView).FoldTree.FindFirstFold;
+
+while fldND.IsInFold do begin
+
+    {$ifOpt D+}
+    DEBUG('EXE','fldND ok:'+ inttostr(fldND.SourceLine));
+    {$endIf}
+
+    //fldND.fo
+
+    fldND:=fldND.Next;
+end;
+}
 
 {docHint> Свернуть ВСЕ и ВСЁ                                             <
     свернуть ВСЕ сомментарии, которые встретим
 <docHint}
 procedure tIn0k_lazExt_AFC_synEdit.foldComments_ALL;
-var idLine:integer;
-    idFold:integer;
+var idLine:integer;        //< текущая строка
+    idFold:integer;        //< текущая "группа"
+    fldCnt:integer;        //< кол-во груп на строке
+    ln_Cnt:integer;        //< кол-во свернутых строк
     FldInf:TSynFoldNodeInfo;
-
-    fldND :TSynTextFoldAVLNode;
-
 begin
     {$ifOpt D+}
-   _dbgLOG_('foldComments_ALL ->');
+    DEBUG('EXE^foldComments_ALL','--- START ---');
     {$endIf}
-    //for idLine:=0 to Lines.Count-1 do begin
-        //     TextView.f
-        //fldND:=tIn0k_lazExt_AFC_synEditFoldProvider(TextView.FoldProvider).FoldTree.FindFirstFold;
-
-        fldND:=tIn0k_lazExt_AFC_synEditFoldedView(TextView).FoldTree.FindFirstFold;
-
-        while fldND.IsInFold do begin
-
-            {$ifOpt D+}
-           _dbgLOG_('fldND ok');
-            {$endIf}
-            fldND:=fldND.Next;
-        end;
-
-
-
-        {idFold:=TextView.FoldProvider.FoldOpenCount(idLine); //< кол-во груп начинающихся в строке
-        while idFold > 0 do begin
-            dec(idFold);
-            FldInf:=TextView.FoldProvider.FoldOpenInfo(idLine,idFold);
-            if _mastFold_mstPRC(FldInf)
-            then _FOLD_FldInf(FldInf,idFold);
-        end; }
-    //end;
+    //--------------------------------------------------------------------------
+    idLine:=0;
+    while idLine<Lines.Count do begin //< по ВСЕМ строкам файла
+        fldCnt:=TextView.FoldProvider.FoldOpenCount(idLine); //< кол-во груп начинающихся в строке
+        if fldCnt>0 then begin
+            idFold:=0;
+            while idFold<fldCnt do begin
+                FldInf:=TextView.FoldProvider.FoldOpenInfo(idLine,idFold);
+                if _mastFold_mstPRC(FldInf) then begin
+                   _FOLD_(FldInf,idFold,ln_Cnt);
+                    // пропускаем уже СВЕРНУТЫЕ строки, их НЕ надо смотреть
+                    if ln_Cnt>0 then begin
+                        inc(idLine,ln_Cnt);
+                        BREAK;
+                    end;
+                end;
+                inc(idFold);
+            end;
+            inc(idLine);
+        end
+        else inc(idLine);
+    end;
+    //--------------------------------------------------------------------------
+    {$ifOpt D+}
+    DEBUG('EXE^foldComments_ALL','---  END  ---');
+    {$endIf}
 end;
 
 {docHint> Свернуть выборочно                                             <
@@ -131,16 +182,58 @@ end;
     ~prm fold_HFC так же сворачивать "Hint From Comment"
 <docHint}
 procedure tIn0k_lazExt_AFC_synEdit.foldComments_Name(const names:TStrings; const CodeBuffer:TCodeBuffer);
-var idLine:integer;
-    idFold:integer;
+var idLine:integer;        //< текущая строка
+    idFold:integer;        //< текущая "группа"
+    fldCnt:integer;        //< кол-во груп на строке
+    ln_Cnt:integer;        //< кол-во свернутых строк
     FldInf:TSynFoldNodeInfo;
  _use_HTC :boolean; //< использовать ли проверку (если файл НЕможем построить дерево то эта проверка НЕ работает)
  _mastFold:boolean;
 begin
     {$ifOpt D+}
-   _dbgLOG_('foldComments_NMS ->');
+    DEBUG('EXE^foldComments_NMS','--- START ---');
     {$endIf}
+    //--------------------------------------------------------------------------
     if (Assigned(CodeBuffer)) OR (Assigned(names)and(names.Count>0)) then begin
+       _use_HTC:=Assigned(CodeBuffer);
+
+
+
+    idLine:=0;
+    while idLine<Lines.Count do begin //< по ВСЕМ строкам файла
+        fldCnt:=TextView.FoldProvider.FoldOpenCount(idLine); //< кол-во груп начинающихся в строке
+        if fldCnt>0 then begin
+            idFold:=0;
+            while idFold<fldCnt do begin
+                FldInf:=TextView.FoldProvider.FoldOpenInfo(idLine,idFold);
+                if _mastFold_mstPRC(FldInf) then begin
+                    if _mastFold_by_LST(FldInf,names)
+                       or
+                       _mastFold_by_HFC(FldInf,CodeBuffer,_use_HTC)
+                    then begin
+                       _FOLD_(FldInf,idFold,ln_Cnt);
+                        // пропускаем уже СВЕРНУТЫЕ строки, их НЕ надо смотреть
+                        if ln_Cnt>0 then begin
+                            inc(idLine,ln_Cnt);
+                            BREAK;
+                        end;
+                    end;
+                end;
+                inc(idFold);
+            end;
+            inc(idLine);
+        end
+        else inc(idLine);
+    end;
+
+
+    end;
+
+
+    //--------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------
+    {if (Assigned(CodeBuffer)) OR (Assigned(names)and(names.Count>0)) then begin
        _use_HTC:=Assigned(CodeBuffer);
 
         for idLine:=0 to Lines.Count-1 do begin
@@ -159,7 +252,11 @@ begin
                 end;
             end;
         end;
-    end;
+    end;}
+    //--------------------------------------------------------------------------
+    {$ifOpt D+}
+    DEBUG('EXE^foldComments_NMS','---  END  ---');
+    {$endIf}
 end;
 
 //------------------------------------------------------------------------------
@@ -199,7 +296,7 @@ begin
                 if pos(names.Strings[i],s)>0
                 then begin
                     {$ifOpt D+}
-                   _dbgLOG_('find NAME: "'+names.Strings[i]+'"');
+                    DEBUG('find','NAME:"'+names.Strings[i]+'"');
                     {$endIf}
                     result:=true;
                     break
@@ -233,7 +330,7 @@ begin
             // по сути: нашли к чему этот комментарий
             result:=true;
             {$ifOpt D+}
-           _dbgLOG_('find HFC: atomINDEX='+inttostr(i));
+            DEBUG('EXE','find HFC: atomINDEX='+inttostr(i));
             {$endIf}
         end
         else begin
@@ -243,11 +340,16 @@ begin
                 // проанализировать и построить дерево-рабора. => НЕ ПРОВЕРЯТЬ
                 useHFC:=FALSE;
                 {$ifOpt D+}
-               _dbgLOG_('find HFC: OFF '+inttostr(i));
+                DEBUG('EXE','find HFC: OFF '+inttostr(i));
                 {$endIf}
             end;
         end;
     end;
+end;
+
+procedure tIn0k_lazExt_AFC_synEdit.DEBUG(const msgType,msgText:string);
+begin
+    In0k_lazExt_AFC.In0k_lazExt_AFC.DEBUG(msgType,msgText);
 end;
 
 end.
