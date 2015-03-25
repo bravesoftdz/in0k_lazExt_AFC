@@ -19,7 +19,7 @@
 2. Открыть файл `<$someDir>/in0k_lazExt_AFC_pkg.lpk` в **Lazarus IDE**.
 3. Скомпилировать и установить пакет.
 
-*замечания*: подробно про установку пакетов должно быть написано [тут](nen "http://wiki.freepascal.org/Install_Packages#Adding_new_packages"). 
+*замечания*: подробно про установку пакетов должно быть написано [тут](http://wiki.freepascal.org/Install_Packages). 
 
 ###Настройка
 1. Настройка **IDE**: необходимо настроить работу механизма "Code Folding" для комментариев (подробности [тут](тут "http://wiki.lazarus.freepascal.org/IDE_Window:_Editor_Options_Code_Folding")).
